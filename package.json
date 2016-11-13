@@ -1,0 +1,26 @@
+{
+  "name": "fonoteka_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@types/react": "^0.14.47",
+    "@types/react-dom": "^0.14.18",
+    "@types/react-router": "^2.0.38",
+    "bootstrap": "^3.3.7",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router": "^3.0.0",
+    "typescript": "^2.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hiciorman/fonoteka_app.git"
+  },
+  "author": "hiciorman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hiciorman/fonoteka_app/issues"
+  },
+  "homepage": "https://github.com/Hiciorman/fonoteka_app#readme"
+}

@@ -36,7 +36,12 @@
   },
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "compile": {
+      "exclude": [
+        "node_modules"
+      ]
+    }
   },
   "runtimeOptions": {
     "configProperties": {
@@ -45,10 +50,11 @@
   },
   "publishOptions": {
     "include": [
-      "wwwroot",
-      "**/*.cshtml",
       "appsettings.json",
-      "web.config"
+      "node_modules",
+      "**/*.cshtml",
+      "web.config",
+      "wwwroot"
     ]
   },
   "scripts": {
