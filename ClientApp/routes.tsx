@@ -5,7 +5,7 @@ import { Home } from './components/Home';
 
 export default <Route component={Layout}>
     <Route path='/' components={{ body: Home }} />
-</Route>
+</Route>;
 
 
 //For WebPack

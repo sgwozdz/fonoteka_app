@@ -9,6 +9,6 @@ import routes from './routes';
 //Sets up the routing configuration
 //Injects the app into DOM element
 ReactDOM.render(
-  <Router history={browserHistory} children={routes}/>,
-  document.getElementById('react-app')  
+  <Router history={browserHistory} children={routes} />,
+  document.getElementById('react-app')
 );
