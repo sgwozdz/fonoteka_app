@@ -27,8 +27,9 @@
   },
   "scripts": {
    "start": "concurrently \"dotnet run\" \"webpack --watch\"",
-    "dev-build": "webpack -d --display-modules --progress",
-    "dist-build": "webpack -p --display-modules --progress"
+    "dev-build": "npm run webpack-vendors -d --display-modules --progress && webpack -d --display-modules --progress",
+    "dist-build": "npm run webpack-vendors -p --display-modules --progress && webpack -p --display-modules --progress",
+    "webpack-vendors": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js"
   },
   "repository": {
     "type": "git",
