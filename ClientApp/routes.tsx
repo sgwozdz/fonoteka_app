@@ -6,10 +6,3 @@ import { Home } from './components/Home';
 export default <Route component={Layout}>
     <Route path='/' components={{ body: Home }} />
 </Route>;
-
-
-//For WebPack
-declare var module: any;
-if (module.hot) {
-    module.hot.accept();
-}
