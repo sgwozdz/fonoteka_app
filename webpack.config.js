@@ -6,7 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     devtool: isDevBuild ? 'inline-source-map' : null,
-    entry: { 'main': './ClientApp/boot.tsx' },
+    entry: { 'main': './ClientApp/boot.jsx' },
     resolve: { extensions: ['', '.js', '.jsx', '.ts', '.tsx'] },
     output: {
         path: path.join(__dirname, bundleOutputDir),
@@ -15,8 +15,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.ts(x?)$/, include: /ClientApp/, loader: 'babel-loader' },
-            { test: /\.tsx?$/, include: /ClientApp/, loader: 'ts', query: { silent: true } },
+            { test: /\.(jsx$)$/, include: /ClientApp/, exclude: /node_modules/ , loader: 'babel-loader' },
             { test: /\.css$/, loader: isDevBuild ? 'style!css' : ExtractTextPlugin.extract(['css']) },
             { test: /\.(png|jpg|jpeg|gif|svg)$/, loader: 'url', query: { limit: 25000 } }
         ]
