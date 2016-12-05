@@ -1,19 +1,21 @@
 import * as React from 'react';
-import { NavMenu } from './NavMenu';
+import {NavMenu} from './NavMenu';
+import {Logo} from './Logo';
 
-// export LayoutProps {
-//     body: React.ReactElement<any>;
-// }
-
-export class Layout extends React.Component{
+export class Layout extends React.Component {
     render() {
-        return <div className='container'>
-        <NavMenu/>
-            <div className='row'>
-                <div className='col-sm-12'>
-                    {this.props.body}
-                </div>
+        return (
+            <div>
+                <NavMenu/>
+                <main id="page-wrap" className='container'>
+                    <Logo/>
+                    <div className='row'>
+                        <div className='col-sm-12'>
+                            {this.props.body}
+                        </div>
+                    </div>
+                </main>
             </div>
-        </div>;
+        )
     }
 }
