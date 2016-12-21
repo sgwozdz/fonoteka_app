@@ -13,8 +13,8 @@ export class Ranking extends React.Component {
     }
     
     componentDidMount() {
-    $.post("http://localhost:4000/graphql", {query: "{albums {title}}"}, function(response) {
-        this.setState({albums: response.data.albums})
+    $.post("http://localhost:4000/graphql", {query: "{rankedAlbums (limit:10) {_id, title, averageRate}}"}, function(response) {
+        this.setState({albums: response.data.rankedAlbums})
          }.bind(this), "json");
     }
     

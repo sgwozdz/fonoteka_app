@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-export class Home extends React.Component{ 
+export class Base extends React.Component{ 
     render() {
         return <div>
-            Aktualności aa
+            Base ss
         </div>;
     }
 }

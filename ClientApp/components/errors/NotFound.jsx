@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-export class Base extends React.Component{ 
+export class NotFound extends React.Component{ 
     render() {
         return <div>
-            Base
+           Not Found :(
         </div>;
     }
 }
