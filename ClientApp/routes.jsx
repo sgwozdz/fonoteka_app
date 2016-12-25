@@ -6,9 +6,11 @@ import { Base } from './components/base/Base';
 import { Friends } from './components/friends/Friends';
 import { Ranking } from './components/ranking/Ranking';
 import { NotFound } from './components/errors/NotFound';
+import { NewsCardDetails} from './components/card/NewsCardDetails'
 
 export default <Route path='/' component={Layout}>
     <IndexRoute components={{ body: Home }} />
+    <Route path="news/:id" components={{body: NewsCardDetails}} />
     <Route path='base' components={{ body: Base }} />
     <Route path='friends' components={{ body: Friends }} />
     <Route path='ranking' components={{ body: Ranking }} />
