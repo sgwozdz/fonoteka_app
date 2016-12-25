@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {NavMenu} from './navigation/NavMenu';
+import {NavAppBar} from './navigation/NavAppBar';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -10,7 +10,7 @@ export class Layout extends React.Component {
         return (
             <MuiThemeProvider muiTheme={Styles()}>
                 <div>
-                    <NavMenu/>
+                    <NavAppBar/>
                     <main id="page-wrap" className='container'>
                         <div className='row'>
                             <div className='col-sm-12'>
