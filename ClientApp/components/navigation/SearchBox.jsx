@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
 import {IconButton, TextField} from 'material-ui';
 import Search from 'material-ui/svg-icons/action/search';
 
