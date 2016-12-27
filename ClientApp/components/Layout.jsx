@@ -12,11 +12,7 @@ export class Layout extends React.Component {
                 <div>
                     <NavAppBar/>
                     <main id="page-wrap" className='container'>
-                        <div className='row'>
-                            <div className='col-sm-12'>
-                                {this.props.body}
-                            </div>
-                        </div>
+                        {this.props.body}
                     </main>
                 </div>
             </MuiThemeProvider>

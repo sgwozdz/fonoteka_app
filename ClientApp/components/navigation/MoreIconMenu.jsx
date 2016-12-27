@@ -10,8 +10,8 @@ export class MoreIconMenu extends Component {
                     iconButtonElement={<IconButton> <MoreVertIcon/> </IconButton>}
                     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                     targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-                    <MenuItem primaryText="Pomóż nam się rozwijać"/>
-                    <MenuItem primaryText="Pomoc"/>
+                    <MenuItem primaryText="pomóż nam się rozwijać"/>
+                    <MenuItem primaryText="pomoc"/>
                 </IconMenu>
             </span>
         )

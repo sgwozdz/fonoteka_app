@@ -21,7 +21,7 @@ export class SearchBox extends Component{
         return (
             <span>
                 {this.state.open 
-                ? <TextField hintText='Wyszukiwanie...' onBlur={this.handleToggle} autoFocus/>
+                ? <TextField hintText='wyszukiwanie...' onBlur={this.handleToggle} autoFocus/>
                 : <IconButton onClick={this.handleToggle}><Search/></IconButton>
             }
             </span>
