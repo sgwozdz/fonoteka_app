@@ -9,17 +9,45 @@ export class Register extends Component {
     constructor(props) {
         super(props);
 
-        this.registerUser = this
-            .registerUser
+        this.state = {
+            username: '',
+            password: '',
+            passwordAgain: '',
+            email: ''
+        };
+
+        this.handleChange = this
+            .handleChange
+            .bind(this);
+        this.handleSubmit = this
+            .handleSubmit
             .bind(this);
     }
 
-    registerUser() {
-        $.post("http://localhost:4000", {
-                query: "{rankedAlbums (limit:10) {_id, title, averageRate}}"
-            }, function (response) {
-                this.setState({albums: response.data.rankedAlbums})
-            }.bind(this), "json");
+    handleSubmit(event) {
+        event.preventDefault();
+        var data = {
+            username: this.state.username,    
+            password: this.state.password,    
+            passwordAgain: this.state.passwordAgain,    
+            email: this.state.email  
+        };
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: 'http://localhost:4000/register',
+            success: function (data) {
+                console.log('success');
+            }
+        });
+    }
+
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
     }
 
     render() {
@@ -28,17 +56,35 @@ export class Register extends Component {
                 <div className='col-sm-4 col-sm-offset-4 text-center'>
                     <Card>
                         <CardTitle title='Zakładanie konta :)'/>
-                        <CardText>
-                            <div>
-                                <TextField floatingLabelText='login'/><br/>
-                                <TextField floatingLabelText='e-mail'/><br/>
-                                <TextField floatingLabelText='hasło'/><br/>
-                                <TextField floatingLabelText='powtórz hasło'/><br/>
-                            </div>
-                        </CardText>
-                        <CardActions>
-                            <FlatButton label='Zakładam konto' containerElement={< Link to = '/news/5' />}/>
-                        </CardActions>
+                        <form id='register-form' onSubmit={this.handleSubmit}>
+                            <CardText>
+                                <div>
+                                    <TextField
+                                        name='username'
+                                        floatingLabelText='login'
+                                        value={this.state.username}
+                                        onChange={this.handleChange}/><br/>
+                                    <TextField
+                                        name='email'
+                                        floatingLabelText='e-mail'
+                                        value={this.state.email}
+                                        onChange={this.handleChange}/><br/>
+                                    <TextField
+                                        name='password'
+                                        floatingLabelText='hasło'
+                                        value={this.state.password}
+                                        onChange={this.handleChange}/><br/>
+                                    <TextField
+                                        name='passwordAgain'
+                                        floatingLabelText='powtórz hasło'
+                                        value={this.state.passwordAgain}
+                                        onChange={this.handleChange}/><br/>
+                                </div>
+                            </CardText>
+                            <CardActions>
+                                <FlatButton label='Zakładam konto' type='submit'/>
+                            </CardActions>
+                        </form>
                     </Card>
                 </div>
             </div>
