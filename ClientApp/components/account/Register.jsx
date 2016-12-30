@@ -10,10 +10,19 @@ export class Register extends Component {
         super(props);
 
         this.state = {
-            username: '',
-            password: '',
-            passwordAgain: '',
-            email: ''
+            buttonDisabled: true,
+            data: {
+                username: '',
+                password: '',
+                passwordAgain: '',
+                email: ''
+            },
+            errors: {
+                username: '',
+                password: '',
+                passwordAgain: '',
+                email: ''
+            }
         };
 
         this.handleChange = this
@@ -27,10 +36,10 @@ export class Register extends Component {
     handleSubmit(event) {
         event.preventDefault();
         var data = {
-            username: this.state.username,    
-            password: this.state.password,    
-            passwordAgain: this.state.passwordAgain,    
-            email: this.state.email  
+            username: this.state.data.username,
+            password: this.state.data.password,
+            passwordAgain: this.state.data.passwordAgain,
+            email: this.state.data.email
         };
 
         $.ajax({
@@ -39,15 +48,54 @@ export class Register extends Component {
             contentType: 'application/json',
             url: 'http://localhost:4000/register',
             success: function (data) {
-                console.log('success');
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
             }
         });
     }
 
     handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
+        var errorMessage = '';
+        var errors = this.state.errors;
+        var data = this.state.data;
+
+        if (event.target.name === 'username') {
+            if (event.target.value.length < 3) {
+                errorMessage = 'minimum 3 znaki';
+            }
+        } else if (event.target.name === 'email') {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+            if (!re.test(event.target.value)) {
+                errorMessage = 'to nie jest poprawny email';
+            }
+        } else if (event.target.name === 'password') {
+            if (event.target.value.length < 6) {
+                errorMessage = 'minimum 6 znaków';
+            }
+        } else if (event.target.name === 'passwordAgain') {
+            if (event.target.value != this.state.data.password) {
+                errorMessage = 'hasła nie są takie same';
+            }
+        }
+
+        data[event.target.name] = event.target.value;
+        errors[event.target.name] = errorMessage;
+
+        this.setState({data: data, errors: errors})
+
+        var disabled = false;
+        if (this.state.data.username == '' || this.state.data.password == '' || this.state.data.passwordAgain == '' || this.state.data.email == '') {
+            disabled = true;
+        }
+        for (var error in errors) 
+            if (errors[error] != '') {
+                disabled = true;
+            }
+        
+        this.setState({buttonDisabled: disabled})
     }
 
     render() {
@@ -56,33 +104,42 @@ export class Register extends Component {
                 <div className='col-sm-4 col-sm-offset-4 text-center'>
                     <Card>
                         <CardTitle title='Zakładanie konta :)'/>
-                        <form id='register-form' onSubmit={this.handleSubmit}>
+                        <form onSubmit={this.handleSubmit}>
                             <CardText>
                                 <div>
                                     <TextField
                                         name='username'
                                         floatingLabelText='login'
-                                        value={this.state.username}
-                                        onChange={this.handleChange}/><br/>
+                                        value={this.state.data.username}
+                                        onChange={this.handleChange}
+                                        errorText={this.state.errors.username}/><br/>
                                     <TextField
                                         name='email'
                                         floatingLabelText='e-mail'
-                                        value={this.state.email}
-                                        onChange={this.handleChange}/><br/>
+                                        value={this.state.data.email}
+                                        onChange={this.handleChange}
+                                        errorText={this.state.errors.email}/><br/>
                                     <TextField
                                         name='password'
                                         floatingLabelText='hasło'
-                                        value={this.state.password}
-                                        onChange={this.handleChange}/><br/>
+                                        value={this.state.data.password}
+                                        onChange={this.handleChange}
+                                        errorText={this.state.errors.password}
+                                        type="password"/><br/>
                                     <TextField
                                         name='passwordAgain'
                                         floatingLabelText='powtórz hasło'
-                                        value={this.state.passwordAgain}
-                                        onChange={this.handleChange}/><br/>
+                                        value={this.state.data.passwordAgain}
+                                        onChange={this.handleChange}
+                                        errorText={this.state.errors.passwordAgain}
+                                        type="password"/><br/>
                                 </div>
                             </CardText>
                             <CardActions>
-                                <FlatButton label='Zakładam konto' type='submit'/>
+                                <FlatButton
+                                    label='Zakładam konto'
+                                    type='submit'
+                                    disabled={this.state.buttonDisabled}/>
                             </CardActions>
                         </form>
                     </Card>
