@@ -4,6 +4,7 @@ import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Car
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as $ from 'jquery';
+import cookie from 'react-cookie';
 
 export class Register extends Component {
     constructor(props) {
@@ -48,7 +49,8 @@ export class Register extends Component {
             contentType: 'application/json',
             url: 'http://localhost:4000/register',
             success: function (data) {
-                console.log(data);
+                cookie.save('userId', data.userId, { path: '/' });
+                window.location = '/';
             },
             error: function (data) {
                 console.log(data);

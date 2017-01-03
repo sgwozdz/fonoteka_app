@@ -4,6 +4,7 @@ import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Car
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as $ from 'jquery';
+import cookie from 'react-cookie';
 
 export class Login extends Component {
     constructor(props) {
@@ -11,7 +12,8 @@ export class Login extends Component {
 
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            logged: false
         };
 
         this.handleChange = this
@@ -35,10 +37,11 @@ export class Login extends Component {
             contentType: 'application/json',
             url: 'http://localhost:4000/login',
             success: function (data) {
-                console.log(data);
+                cookie.save('userId', data.userId, { path: '/' });
+                window.location = '/';
             },
             error: function (data) {
-                console.log(data);
+                console.log('err');
             }
         });
     }

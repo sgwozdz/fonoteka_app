@@ -38,7 +38,7 @@ export class NavAppBar extends Component {
                     fontSize: 30
                     }}
                     onLeftIconButtonTouchTap={this.handleToggle}
-                    iconElementRight={<RightMenu/>}/>
+                    iconElementRight={<RightMenu logged = {this.props.logged}/>}/>
                 <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
                     <MenuItem containerElement={<Link to="/"/>} onTouchTap={this.handleClose}>Aktualności</MenuItem>
                     <MenuItem containerElement={<Link to="/base"/>} onTouchTap={this.handleClose}>Baza</MenuItem>

@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import {NewsCard} from './card/NewsCard'
+import cookie from 'react-cookie';
 
 export class Home extends Component {
+    constructor(props) {
+        super(props);
+    }
+    
     render() {
         return (
             <div>

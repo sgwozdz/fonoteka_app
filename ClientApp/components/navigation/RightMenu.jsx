@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { MoreIconMenu } from './MoreIconMenu';
 import { AccountIconMenu } from './AccountIconMenu';
+import { LoggedMenu } from './LoggedMenu';
 import { SearchBox } from './SearchBox';
 
 export class RightMenu extends Component {
@@ -8,7 +9,10 @@ export class RightMenu extends Component {
         return (
             <div>
                 <SearchBox/>
-                <AccountIconMenu/>
+                {this.props.logged
+                    ? <LoggedMenu/>
+                    : <AccountIconMenu/>
+                }
                 <MoreIconMenu/>
             </div>
         );
