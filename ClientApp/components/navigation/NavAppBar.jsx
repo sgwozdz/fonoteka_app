@@ -30,13 +30,19 @@ export class NavAppBar extends Component {
     }
 
     render() {
+        const appbarStyle = {
+            backgroundColor: '#616161'
+        };
+        const titleStyle = {
+            fontSize: 30,
+            color: 'white'
+        };
         return (
             <div>
-                <AppBar title={<span>Fonoteka</span>}
-                    titleStyle={{
-                    color: '#F44336',
-                    fontSize: 30
-                    }}
+                <AppBar id='appbar'
+                    title={<span>Fonoteka</span>}
+                    titleStyle={titleStyle}
+                    style={appbarStyle}
                     onLeftIconButtonTouchTap={this.handleToggle}
                     iconElementRight={<RightMenu logged = {this.props.logged}/>}/>
                 <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>

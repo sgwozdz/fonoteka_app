@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {MenuItem, IconMenu, IconButton} from 'material-ui';
 import Person from 'material-ui/svg-icons/social/person';
 import cookie from 'react-cookie';
-
+import FlatButton from 'material-ui/FlatButton';
 export class LoggedMenu extends Component{
     constructor(props) {
         super(props);
