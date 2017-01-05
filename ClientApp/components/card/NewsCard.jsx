@@ -3,17 +3,16 @@ import {Link} from 'react-router';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
-// temporary image 
 export class NewsCard extends Component {
     render() {
         return (
             <Card>
                 <CardMedia
-                    overlay={<CardTitle title={this.props.title} subtitle={this.props.author}/>}>
-                    <img src={require('../ironman1.jpg')}/> 
+                    overlay={<CardTitle title={this.props.post.title} subtitle={this.props.post.author.username}/>}>
+               <img src={require('../ironman1.jpg')}/> 
                 </CardMedia>
                 <CardText>
-                    {this.props.text}
+                    {this.props.post.body}
                 </CardText>
                 <CardActions>
                     <FlatButton label="Czytaj dalej..." containerElement={<Link to="/news/5"/>}/>
