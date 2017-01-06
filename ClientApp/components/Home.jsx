@@ -6,7 +6,6 @@ import * as $ from 'jquery';
 export class Home extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             posts: []
         }
@@ -28,7 +27,7 @@ export class Home extends Component {
                 {this
                     .state
                     .posts
-                    .map(post => <div className='col-sm-4'>
+                    .map(post => <div key={post._id} className='col-sm-4'>
                         <NewsCard post={post}/>
                     </div>)}
             </div>

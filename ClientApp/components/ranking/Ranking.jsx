@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { RankingElement } from './RankingElement';
 import * as $ from 'jquery';
-import * as axios from 'axios';
 
 export class Ranking extends React.Component {
     constructor(props) {
@@ -29,7 +28,7 @@ export class Ranking extends React.Component {
             </thead>
             <tbody>
               {this.state.albums.map(album =>
-                    <RankingElement album={album} />)}
+                    <RankingElement key={album._id} album={album} />)}
             </tbody>
         </table>;
     }
