@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
+import {FlatButton, TextField, Dialog} from 'material-ui';
 import * as $ from 'jquery';
 import cookie from 'react-cookie';
 
@@ -13,15 +12,13 @@ export class Login extends Component {
         this.state = {
             username: '',
             password: '',
+            open: false,
             logged: false
         };
 
-        this.handleChange = this
-            .handleChange
-            .bind(this);
-        this.handleSubmit = this
-            .handleSubmit
-            .bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleSubmit(event) {
@@ -30,18 +27,25 @@ export class Login extends Component {
             username: this.state.username,
             password: this.state.password
         };
-
+        var _this = this;
         $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
             url: 'http://localhost:4000/login',
             success: function (data) {
-                cookie.save('userId', data.userId, { path: '/' });
-                window.location = '/';
-            },
-            error: function (data) {
-                console.log('err');
+                switch (data.status) {
+                    case 100:
+                        cookie.save('userId', data.userId, { path: '/' });
+                        cookie.save('username', data.username, { path: '/' });
+                        window.location = '/';
+                        break;
+                    case 200:
+                        _this.setState({
+                            open: true
+                        })
+                        break;
+                }
             }
         });
     }
@@ -52,10 +56,28 @@ export class Login extends Component {
         })
     }
 
+    handleClose(){
+        this.setState({open: !this.state.open});
+    };
+
     render() {
+        const actions = [
+            <FlatButton
+                label="Ok"
+                onTouchTap={this.handleClose}/>
+        ];
+        
         return (
             <div className='row'>
                 <div className='col-sm-4 col-sm-offset-4 text-center'>
+                    <Dialog
+                        title='Błąd logowania'
+                        actions={actions}
+                        modal={false}
+                        open={this.state.open}
+                        onRequestClose={this.handleClose}>
+                        Podane błędne dane logowania. Spróbuj ponownie.
+                    </Dialog>
                     <Card>
                         <CardTitle title='Logowanie :)'/>
                         <form onSubmit={this.handleSubmit}>
@@ -64,6 +86,7 @@ export class Login extends Component {
                                     <TextField
                                         name='username'
                                         floatingLabelText='login'
+                                        errorText=''
                                         value={this.state.username}
                                         onChange={this.handleChange}/><br/>
                                     <TextField
