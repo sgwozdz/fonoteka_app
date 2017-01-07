@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {AppBar} from 'material-ui';
 import {RightMenu} from './RightMenu';
 import {LeftDrawer} from './LeftDrawer';
+import { white, grey900
+} from 'material-ui/styles/colors';
 
 export class NavAppBar extends Component {
     constructor(props) {
@@ -20,11 +22,11 @@ export class NavAppBar extends Component {
     
     render() {
         const appbarStyle = {
-            backgroundColor: '#616161'
+            backgroundColor: grey900
         };
         const titleStyle = {
             fontSize: 30,
-            color: 'white'
+            color: white
         };
         return (
             <div>
