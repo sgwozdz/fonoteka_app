@@ -45,12 +45,12 @@ export class Base extends React.Component {
         var titleQuery = '';
         var genresQuery = '';
         if (title) {
-            titleQuery = ',title:\"' + title + '\"';
+            titleQuery = ', title:\"' + title + '\"';
         }
         if(this.state.chipData.length != 0){
-            genresQuery = ',genres:' + this.state.chipData.map(x=> x.key);
+            genresQuery = ', genres:[' + this.state.chipData.map(x=> x.key) + ']';
         }
-        var albumsQuery = '{albums (limit:50' + titleQuery + ' ' + genresQuery + ') {_id, title, released}}';
+        var albumsQuery = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, cover}}';
         $.post("http://localhost:4000/graphql", {
                 query: albumsQuery
             }, function (response) {
@@ -123,7 +123,7 @@ export class Base extends React.Component {
                 <div className='col-sm-3 col-sm-offset-1'>
                      <SelectField
                         onChange={this.handleSelectChange}
-                        floatingLabelText="Gatunek">
+                        floatingLabelText="gatunek">
                         {this.state.genres.map(genre => 
                             <MenuItem key={genre._id} value={genre._id} primaryText={genre.label} />)}
                     </SelectField>

@@ -77,6 +77,9 @@ export class BaseElement extends React.Component {
                 <CardHeader
                     title={this.props.album.title}
                     subtitle={new Date(this.props.album.released).toLocaleDateString()}/>
+                <CardMedia>
+                <img src={this.props.album.cover}/>
+                </CardMedia>
                 <CardActions>
                     <div>
                         <Slider
