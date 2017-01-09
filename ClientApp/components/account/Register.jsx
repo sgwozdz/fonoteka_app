@@ -125,8 +125,9 @@ export class Register extends Component {
         ];
 
         return (
-            <div className='row'>
-                <div className='col-sm-4 col-sm-offset-4 text-center'>
+            <div className='pure-g'>
+                <div className="pure-u-1-3">&nbsp;</div>
+                <div className='pure-u-1-3 text-center'>
                     <Dialog
                         title='Błąd rejestracji'
                         actions={actions}

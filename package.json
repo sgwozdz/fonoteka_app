@@ -10,7 +10,6 @@
     "babel-loader": "^6.2.8",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
-    "bootstrap": "^3.3.7",
     "concurrently": "^3.1.0",
     "css-loader": "^0.26.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -45,5 +44,8 @@
   "bugs": {
     "url": "https://github.com/Hiciorman/fonoteka_app/issues"
   },
-  "homepage": "https://github.com/Hiciorman/fonoteka_app#readme"
+  "homepage": "https://github.com/Hiciorman/fonoteka_app#readme",
+  "dependencies": {
+    "purecss": "^0.6.2"
+  }
 }

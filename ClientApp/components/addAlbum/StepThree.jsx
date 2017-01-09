@@ -36,44 +36,45 @@ export class StepThree extends React.Component {
 
     render() {
         return (
-            <div className='row'>
-                <div className='col-sm-4 col-sm-offset-1'>
-                    <div className='row'>
+            <div>
+                <div className='pure-u-1-3'>
+                    <div>
                         <img src={this.state.cover}/>
                     </div>
-                    <div className='row'>
+                    <div>
                         <TextField
                             name='title'
                             disabled={true}
                             defaultValue={this.state.title}/>                             
                     </div>
-                    <div className='row'>
+                    <div>
                         <TextField
                             name='artists'
                             disabled={true}
                             defaultValue={this.state.artists.map(x=> x.name).join()}/>
                     </div>
-                    <div className='row'>
+                    <div>
                         <TextField
                             name='released'
                             disabled={true}
                             defaultValue={this.state.released ? this.state.released.toLocaleDateString() : ''}/>                            
                     </div>
-                    <div className='row'>
+                    <div>
                         <TextField
                             name='length'
                             disabled={true}
                             defaultValue={this.state.length}/>                                      
                     </div>
-                    <div className='row'>
+                    <div>
                         <TextField
                             name='genres'
                             disabled={true}
                             defaultValue={this.state.genres.map(x=>x.label).join()}/>
                     </div>
                 </div>
-                <div className='col-sm-5 col-sm-offset-1'>
-                    <table className="table">
+                <div className="pure-u-1-12">&nbsp;</div>
+                <div className='pure-u-5-12'>
+                    <table className="pure-table">
                         <thead>
                             <tr>
                                 <th>#</th>

@@ -13,7 +13,7 @@ export class StepTwo extends React.Component {
             title: '',
             feat: '',
             length: '',
-            tracks: [],
+            tracks: this.props.tracks || [],
             numberError: '',
             titleError: '',
             timeFieldError: ''
@@ -101,9 +101,9 @@ export class StepTwo extends React.Component {
 
     render() {
         return (
-            <div className='row'>
-                <div className='col-sm-4 col-sm-offset-1'>
-                    <div className='row'>
+            <div>
+                <div className='pure-u-1-3'>
+                    <div>
                         <TextField
                             name='number'
                             floatingLabelText='numer'
@@ -111,34 +111,35 @@ export class StepTwo extends React.Component {
                             errorText = {this.state.numberError}
                             onChange={this.handleNumberChange}/>                                     
                     </div>
-                    <div className='row'>
+                    <div>
                         <TextField
                             name='title'
-                            floatingLabelText='title'
+                            floatingLabelText='tytuł'
                             value={this.state.title}
                             errorText = {this.state.titleError}
                             onChange={this.handleTitleChange}/>                                     
                     </div>
-                    <div className='row'>
+                    <div>
                         <TextField
                             name='feat'
                             floatingLabelText='feat'
                             value={this.state.feat}
                             onChange={this.handleChange}/>                                     
                     </div>
-                    <div className='row'>
+                    <div>
                         <TimeField
                             name='length'
                             floatingLabelText='długość'
                             value={this.state.length}
                             onChange={this.handleChange}/>
                     </div>
-                    <div className='row'>
+                    <div>
                         <RaisedButton label='Dodaj utwór' onTouchTap={this.handleAddTrack} primary={true}/>
                     </div>
                 </div>
-                <div className='col-sm-5 col-sm-offset-1'>
-                    <table className="table">
+                <div className="pure-u-1-12">&nbsp;</div>
+                <div className='pure-u-5-12'>
+                    <table className="pure-table">
                         <thead>
                             <tr>
                                 <th>#</th>

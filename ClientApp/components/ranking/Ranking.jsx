@@ -18,7 +18,7 @@ export class Ranking extends React.Component {
     }
     
     render() {
-        return <table className="table table-hover">
+        return <table className="pure-table">
             <thead>
                 <tr>
                     <th>Miejsce</th>

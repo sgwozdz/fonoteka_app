@@ -59,26 +59,26 @@ export class Profile extends Component {
 
     render() {
         return (
-            <div className='row'>
-                <div className='col-sm-4'>
+            <div className='pure-g'>
+                <div className='pure-u-1-3'>
                     <Card>
                         <CardTitle title={this.state.user.username}/>
                         <CardText>
-                            <div className='row'>
-                                <div className='col-sm-6'>Imię:</div>
-                                <div className='col-sm-6'>{this.state.user.firstName}</div>
+                            <div className='pure-g'>
+                                <div className='pure-u-1-2'>Imię:</div>
+                                <div className='pure-u-1-2'>{this.state.user.firstName}</div>
                             </div>
-                            <div className='row'>
-                                <div className='col-sm-6'>Nazwisko:</div>
-                                <div className='col-sm-6'>{this.state.user.lastName}</div>
+                            <div className='pure-g'>
+                                <div className='pure-u-1-2'>Nazwisko:</div>
+                                <div className='pure-u-1-2'>{this.state.user.lastName}</div>
                             </div>
-                            <div className='row'>
-                                <div className='col-sm-6'>Adres email:</div>
-                                <div className='col-sm-6'>{this.state.user.email}</div>
+                            <div className='pure-g'>
+                                <div className='pure-u-1-2'>Adres email:</div>
+                                <div className='pure-u-1-2'>{this.state.user.email}</div>
                             </div>
-                            <div className='row'>
-                                <div className='col-sm-6'>Data urodzenia:</div>
-                                <div className='col-sm-6'>{this.state.user.birthdate}</div>
+                            <div className='pure-g'>
+                                <div className='pure-u-1-2'>Data urodzenia:</div>
+                                <div className='pure-u-1-2'>{this.state.user.birthdate}</div>
                             </div>
                         </CardText>
                         <CardActions>
@@ -86,7 +86,7 @@ export class Profile extends Component {
                         </CardActions>
                     </Card>
                 </div>
-                <div className='col-sm-8'>
+                <div className='pure-u-16-24'>
                     <Card>
                         <CardTitle title="Ostatnio ocenione"/>
                         <CardText>

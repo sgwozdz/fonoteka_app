@@ -100,8 +100,8 @@ export class Base extends React.Component {
             paddingTop: 10
         };
         return <div>          
-            <div className='row'>
-                <div className='col-sm-12'>
+            <div className='pure-g'>
+                <div className='pure-u-1'>
                     <TextField floatingLabelText="Wyszukiwanie..." 
                     floatingLabelStyle={colorCyan800} 
                     inputStyle={inputColor} 
@@ -110,17 +110,18 @@ export class Base extends React.Component {
                     <FlatButton label="Dodaj album" containerElement={<Link to="/addAlbum"/>}/>
                 </div>
             </div>
-            <div className='row'>
-                <div className='col-sm-8' >
+            <div className='pure-g'>
+                <div className='pure-u-2-3' >
                     {this
                         .state
                         .albums
                         .map(album => 
-                        <div className='col-sm-6' style={padding} key={album._id}>
+                        <div className='pure-u-1-2' style={padding} key={album._id}>
                             <BaseElement album={album}/>
                         </div>)}
                 </div>
-                <div className='col-sm-3 col-sm-offset-1'>
+                <div className="pure-u-1-12">&nbsp;</div>
+                <div className='pure-u-1-4'>
                      <SelectField
                         onChange={this.handleSelectChange}
                         floatingLabelText="gatunek">

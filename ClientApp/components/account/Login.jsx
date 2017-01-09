@@ -66,10 +66,10 @@ export class Login extends Component {
                 label="Ok"
                 onTouchTap={this.handleClose}/>
         ];
-        
         return (
-            <div className='row'>
-                <div className='col-sm-4 col-sm-offset-4 text-center'>
+            <div className='pure-g'>
+                <div className="pure-u-1-3">&nbsp;</div>
+                <div className='pure-u-1-3 text-center'>
                     <Dialog
                         title='Błąd logowania'
                         actions={actions}

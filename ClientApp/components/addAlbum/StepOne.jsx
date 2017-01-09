@@ -132,7 +132,7 @@ export class StepOne extends React.Component {
                     ctx.drawImage(image, 0,0,300,300);
                     
                     image.this.setState({cover: "done"});
-                    image.this.props.onChange({target: {name: 'cover', value: canvas.toDataURL()}});
+                    image.this.props.onChange({target: {name: 'cover', value: canvas.toDataURL("image/jpeg")}});
                 }
 
                 image.src = e.target.result;
@@ -212,13 +212,15 @@ export class StepOne extends React.Component {
     }
 
     render() {
+        const displayInlineBlock = {
+            display: 'inline-block'
+        }
         const marginTop = {
             marginTop: '30px'
         }
         return (
-            <div className='row'>
-                <div className='col-sm-12'>
-                    <div className='row'>
+                <div className='pure-u-1-3'>
+                    <div>
                         <TextField
                             name='title'
                             floatingLabelText='tytuł'
@@ -226,7 +228,7 @@ export class StepOne extends React.Component {
                             errorText={this.state.titleError}
                             onChange={this.handleTitleChange}/>
                     </div>
-                    <div className='row'>
+                    <div>
                         <AutoComplete
                             searchText={this.state.autoComplete.searchText}
                             floatingLabelText='artysta/zespół'
@@ -235,12 +237,10 @@ export class StepOne extends React.Component {
                             dataSource={this.state.autoComplete.data.map(x => x.name)}
                             filter={(searchText, key) => true}/>
                     </div>
-                    <div className='row'>
-                        <div className='col-sm-6 col-sm-offset-3'>
-                            {this.state.artists.map((x)=>{return this.renderChip(x, 'artists')})}
-                        </div>
+                    <div style={displayInlineBlock}>
+                        {this.state.artists.map((x)=>{return this.renderChip(x, 'artists')})}
                     </div>
-                    <div className='row' style={marginTop}>
+                    <div style={marginTop}>
                         <RaisedButton containerElement='label' label='Dodaj okładkę' primary={true}>
                             <input
                                 type="file"
@@ -252,7 +252,7 @@ export class StepOne extends React.Component {
                             : ''
                         }
                     </div>
-                    <div className='row'>
+                    <div>
                         <DatePicker
                             name='released'
                             floatingLabelText='data wydania'
@@ -260,7 +260,7 @@ export class StepOne extends React.Component {
                             onChange={this.handleDateChange}
                             maxDate={this.state.maxDate}/>
                     </div>
-                    <div className='row'>
+                    <div>
                         <TimeField
                             name='length'
                             floatingLabelText='długość'
@@ -268,7 +268,7 @@ export class StepOne extends React.Component {
                             value={this.state.length}
                             onChange={this.handleChange}/>
                     </div>
-                    <div className='row'>
+                    <div>
                         <SelectField
                             style={this.styles.textAlignLeft}
                             onChange={this.handleSelectChange}
@@ -278,13 +278,10 @@ export class StepOne extends React.Component {
                             }
                         </SelectField>
                     </div>
-                    <div className='row'>
-                        <div className='col-sm-6 col-sm-offset-3'>
-                            {this.state.genres.map((x)=>{return this.renderChip(x, 'genres')})}
-                        </div>
+                    <div style={displayInlineBlock}>
+                        {this.state.genres.map((x)=>{return this.renderChip(x, 'genres')})}
                     </div>
                 </div>
-            </div>
         );
     }
 }

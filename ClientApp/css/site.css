@@ -1,6 +1,28 @@
 #page-wrap{
     padding-top: 10px;
 }
+.pure-g {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  letter-spacing: normal;
+}
+@media (min-width: 768px) {
+  .pure-g {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .pure-g {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .pure-g {
+    width: 1170px;
+  }
+}
 
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill,
@@ -20,4 +42,7 @@ select:-webkit-autofill:focus {
 
 #appbar svg {
   fill: white !important;
+}
+.text-center{
+  text-align: center
 }

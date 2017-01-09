@@ -131,7 +131,8 @@ export class AddAlbum extends React.Component{
                         artists={this.state.artists} 
                         genres={this.state.genres}/>);
         case 1:
-            return (<StepTwo onChange={this.handleChange}/>);
+            return (<StepTwo onChange={this.handleChange} 
+                        tracks={this.state.tracks}/>);
         case 2:
             return (<StepThree title={this.state.title} 
                         cover={this.state.cover} 
@@ -156,8 +157,9 @@ export class AddAlbum extends React.Component{
                 onTouchTap={this.handleClose}/>
         ];
         return (
-        <div className='row'> 
-            <div className='col-sm-10 col-sm-offset-1 text-center'>
+        <div className='pure-g'> 
+            <div className="pure-u-1-12">&nbsp;</div>
+            <div className='pure-u-20-24 text-center'>
                 <Dialog
                         title='Nie udało się zapisać :('
                         actions={actions}

@@ -38,6 +38,7 @@ export class Layout extends React.Component {
     }
     componentDidMount(){
         var dialog = getParameterByName('dialog');
+        window.history.pushState('', 'Start - Fonoteka', '/' );
         if (dialog) {
             var open = true;
             var title = '';
@@ -66,6 +67,7 @@ export class Layout extends React.Component {
             })
         }
     }
+   
     handleClose(){
         this.setState({dialogOpen: !this.state.dialogOpen});
     };
