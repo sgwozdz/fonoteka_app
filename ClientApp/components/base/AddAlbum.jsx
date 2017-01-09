@@ -1,26 +1,28 @@
 import * as React from 'react';
 import * as $ from 'jquery';
-import {FlatButton, TextField, SelectField, Chip, MenuItem, Dialog, DatePicker, RaisedButton, AutoComplete } from 'material-ui';
+import {RaisedButton, Dialog} from 'material-ui';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
-import CheckCircle from 'material-ui/svg-icons/action/check-circle';
+import {Step, Stepper, StepButton } from 'material-ui/Stepper';
+import {StepOne} from '../addAlbum/StepOne';
+import {StepTwo} from '../addAlbum/StepTwo';
+import {StepThree} from '../addAlbum/StepThree';
+import ArrowForward from  'material-ui/svg-icons/navigation/arrow-forward';
 
 export class AddAlbum extends React.Component{
     constructor(props) {
         super(props);
 
         this.state = {
-            autoComplete:{
-                data: [],
-                searchText: ''
-            },
+            stepIndex: 0,
             title: '',
             cover: '',
-            released: null,
+            released: '',
             length: '',
             artists: [],
+            genres: [],
             tracks: [],
-            genresData: [],
-            chipData: []
+            error: '',
+            open: false
         };
         this.styles = {
             chip: {
@@ -44,12 +46,9 @@ export class AddAlbum extends React.Component{
             }
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleUpdateInput = this.handleUpdateInput.bind(this);
-        this.handleNewRequest = this.handleNewRequest.bind(this);
+        this.handleNext = this.handleNext.bind(this);
+        this.getStepContent = this.getStepContent.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
     
     componentDidMount() {
@@ -61,155 +60,144 @@ export class AddAlbum extends React.Component{
     }
 
     handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-    handleDateChange(event, date){
-        this.setState({
-            released: date,
-        });
-    };
-    handleSelectChange (event, index, value){
-        var chips = this.state.chipData;
-        if (!chips.find((x) => x.key === value)) {
-            chips.push({key: value, label: event.target.innerText});
-            this.setState({chipData: chips});
+        if (event.target) {
+            this.setState({
+                [event.target.name]: event.target.value
+            })
         }
-    }
-    handleInputChange(event){
-        var reader = new FileReader();
-        reader.readAsDataURL(event.target.files[0]);
-        var _this = this;
-        reader.onload = function () {
-            _this.setState({
-                cover: reader.result
-            });
-        };
-    }
-
-    handleRequestDelete(key){
-        this.chipData = this.state.chipData;
-        const chipToDelete = this.chipData.map((chip) => chip.key).indexOf(key);
-        this.chipData.splice(chipToDelete, 1);
-        this.setState({chipData: this.chipData});
     }
 
     handleSubmit(){
-        event.preventDefault();
-        var genresQuery = '';
-        if(this.state.chipData.length != 0){
-            genresQuery = ', genres:[' + this.state.chipData.map(x=> x.key) + ']';
+        if (this.state.error) {
+           this.setState({
+               open: true
+           });
         }
-        var artistsQuery = '';
-        if(this.state.artists.length != 0){
-            artistsQuery = ', artists:[' + this.state.artists.map(x=> JSON.stringify(x._id)) + ']';
-        }
+        else{
+            var genresQuery = '';
+            if(this.state.genres.length != 0){
+                genresQuery = ', genres:[' + this.state.genres.map(x=> x.key) + ']';
+            }
+            var artistsQuery = '';
+            if(this.state.artists.length != 0){
+                artistsQuery = ', artists:[' + this.state.artists.map(x=> JSON.stringify(x._id)) + ']';
+            }
+            var tracksQuery = '';
+            if(this.state.tracks.length != 0){
+                tracksQuery = ', tracks:[';
+                this.state.tracks.forEach(function(track) {
+                    tracksQuery += '{';
+                    if (track.id) 
+                        tracksQuery += ' id: '+JSON.stringify(track.id);
+                    if (track.title)
+                        tracksQuery += ' title: '+JSON.stringify(track.title);
+                    if (track.feat)
+                        tracksQuery += ' feat: '+JSON.stringify(track.feat);
+                    if (track.length)
+                        tracksQuery += ' length: '+JSON.stringify(track.length);
+                    tracksQuery += '}';
+                }, this);
+                tracksQuery += ']';
+            }
 
-
-        var query = "mutation{albumAdd(title:" + JSON.stringify(this.state.title) + ", released:" + JSON.stringify(this.state.released) + genresQuery + ", cover:" + JSON.stringify(this.state.cover) + artistsQuery + ") {_id}}";
-        console.log(query);
-        $.post("http://localhost:4000/graphql", {
-            query: query
-        }, function (response) {
-            console.log(response.data.albumAdd._id);
-        }.bind(this), "json");
-    }
-    
-    renderChip(data) {
-        return (
-            <Chip
-                key={data.key || data._id}
-                style={this.styles.chip}
-                onRequestDelete={()=> this.handleRequestDelete(data.key || data._id)}>
-                {data.label || data.name}
-            </Chip>
-        );
-    }
-
-    handleUpdateInput(searchText){
-        var autoComplete = this.state.autoComplete;
-        autoComplete.searchText = searchText;
-
-        $.post("http://localhost:4000/graphql", {
-                query: '{artists (name: '+ JSON.stringify(searchText) +'){_id, name}}'
+            var query = "mutation{albumAdd(title:" + JSON.stringify(this.state.title) + ", released:" + JSON.stringify(this.state.released) + genresQuery + ", cover:" + JSON.stringify(this.state.cover) + artistsQuery + tracksQuery + ") {_id}}";
+            console.log(query);
+            $.post("http://localhost:4000/graphql", {
+                query: query
             }, function (response) {
-                autoComplete.data = response.data.artists;
-                this.setState({autoComplete: autoComplete})
+                window.location = '/?dialog=2';
             }.bind(this), "json");
+        }
+    }
+
+    handleNext(){
+        const stepIndex = this.state.stepIndex;
+        if (stepIndex < 2) {
+        this.setState({stepIndex: stepIndex + 1});
+        }
+        if (stepIndex === 2) {
+            this.handleSubmit();
+        }
     };
 
-    handleNewRequest(value) {
-        var artist = this.state.autoComplete.data.find((x)=> x.name === value);
-        var artists = this.state.artists;
+    getStepContent(stepIndex) {
+        switch (stepIndex) {
+        case 0:
+            return (<StepOne onChange={this.handleChange} 
+                        title={this.state.title} 
+                        cover={this.state.cover} 
+                        released={this.state.released} 
+                        length={this.state.length} 
+                        artists={this.state.artists} 
+                        genres={this.state.genres}/>);
+        case 1:
+            return (<StepTwo onChange={this.handleChange}/>);
+        case 2:
+            return (<StepThree title={this.state.title} 
+                        cover={this.state.cover} 
+                        released={this.state.released} 
+                        length={this.state.length} 
+                        artists={this.state.artists} 
+                        genres={this.state.genres} 
+                        tracks={this.state.tracks}/>);
+        default:
+            return 'Ooops, napisz do nas bo coś poszło nie tak!';
+        }
+    }
 
-        if (artists.indexOf(artist) === -1) 
-          artists.push(artist);
-
-        var autoComplete = this.state.autoComplete;
-        autoComplete.searchText = '';
-
-        this.setState({artists: artists, autoComplete: autoComplete})
+     handleClose(){
+        this.setState({open: !this.state.open});
     };
 
     render(){
+        const actions = [
+            <RaisedButton
+                label="Ok"
+                onTouchTap={this.handleClose}/>
+        ];
         return (
-             <div className='row'>
-                <div className='col-sm-4 col-sm-offset-4 text-center'>
-                    <Card>
-                        <CardTitle title='Dodawanie albumu'/>
-                            <CardText>
-                                <div>
-                                   <TextField
-                                        name='title'
-                                        floatingLabelText='tytuł'
-                                        value={this.state.title}
-                                        onChange={this.handleChange}/><br/>
-                                    <RaisedButton
-                                        containerElement='label'
-                                        label='Dodaj okładkę'>
-                                        <input type="file" 
-                                        style={this.styles.fileButton} 
-                                        onChange={this.handleInputChange}/>
-                                    </RaisedButton>
-                                    {this.state.cover 
-                                        ? <CheckCircle style={this.styles.iconStyle}/>
-                                        : ''    
-                                    }    
-                                    <AutoComplete 
-                                        searchText={this.state.autoComplete.searchText}
-                                        floatingLabelText= 'artysta/zespół'
-                                        onUpdateInput={this.handleUpdateInput}
-                                        onNewRequest={this.handleNewRequest}
-                                        dataSource={this.state.autoComplete.data.map(x=> x.name)}
-                                        filter={(searchText, key) => true}/><br/>
-                                    <div>
-                                        {this.state.artists.map(this.renderChip, this)}
-                                    </div><br/>
-                                    <DatePicker 
-                                        name='released'
-                                        mode="landscape"
-                                        floatingLabelText='data wydania'
-                                        value={this.state.released}
-                                        onChange={this.handleDateChange}/><br/>  
-                                    <SelectField
-                                        style={this.styles.textAlignLeft}
-                                        onChange={this.handleSelectChange}
-                                        floatingLabelText="gatunek">
-                                        {this.state.genresData.map(genre => 
-                                            <MenuItem key={genre._id} value={genre._id} primaryText={genre.label} />)}
-                                    </SelectField>
-                                    <div>
-                                        {this.state.chipData.map(this.renderChip, this)}
-                                    </div>
-                                </div>
-                            </CardText>
-                            <CardActions>
-                                <FlatButton label='Dodaj album' onTouchTap={this.handleSubmit}/>
-                            </CardActions>
-                    </Card>
-                </div>
-            </div>
-        );
-    }
+        <div className='row'> 
+            <div className='col-sm-10 col-sm-offset-1 text-center'>
+                <Dialog
+                        title='Nie udało się zapisać :('
+                        actions={actions}
+                        modal={false}
+                        open={this.state.open}
+                        onRequestClose={this.handleClose}>
+                        {this.state.error}
+                    </Dialog>
+                <Card>
+                    <CardTitle title='Dodawanie albumu'/>
+                    <CardText>
+                         <Stepper linear={false} activeStep={this.state.stepIndex}>
+                            <Step>
+                                <StepButton onClick={() => this.setState({stepIndex: 0})}>
+                                Tworzenie albumu...
+                                </StepButton>
+                            </Step>
+                            <Step>
+                                <StepButton onClick={() => this.setState({stepIndex: 1})}>
+                                Dodawanie utworów...
+                                </StepButton>
+                            </Step>
+                            <Step>
+                                <StepButton onClick={() => this.setState({stepIndex: 2})}>
+                                Podsumowanie
+                                </StepButton>
+                            </Step>
+                        </Stepper>
+                        {this.getStepContent(this.state.stepIndex)}
+                    </CardText>
+                    <CardActions>
+                        <RaisedButton 
+                            label={this.state.stepIndex === 2 ? 'Dodaj album' : 'Dalej'} 
+                            labelPosition="before"
+                            onTouchTap={this.handleNext} 
+                            primary={true} 
+                            icon={this.state.stepIndex === 2 ? '' : <ArrowForward/>}/>
+                    </CardActions>
+                </Card>
+            </div> 
+        </div>);
+}
 }
