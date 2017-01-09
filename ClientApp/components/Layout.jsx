@@ -76,7 +76,6 @@ export class Layout extends React.Component {
                 label="Ok"
                 onTouchTap={this.handleClose}/>
         ];
-        console.log('oł)');
         return (
             <MuiThemeProvider muiTheme={Styles()}>
                 <div>
