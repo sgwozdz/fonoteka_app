@@ -53,7 +53,7 @@ export class Register extends Component {
                     case 100:
                         cookie.save('userId', data.userId, { path: '/' });
                         cookie.save('username', data.username, { path: '/' });
-                        window.location = '/';
+                        window.location = '/?dialog=1';
                         break;
                     case 301:
                         _this.setState({
