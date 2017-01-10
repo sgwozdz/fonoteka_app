@@ -36,7 +36,7 @@ export class Login extends Component {
                     case 100:
                         cookie.save('userId', request.response.userId, { path: '/' });
                         cookie.save('username', request.response.username, { path: '/' });
-                        window.location = '/';
+                        request._this.props.router.push('/');
                         break;
                     case 200:
                          request._this.setState({
@@ -76,7 +76,7 @@ export class Login extends Component {
                         modal={false}
                         open={this.state.open}
                         onRequestClose={this.handleClose}>
-                        Podane błędne dane logowania. Spróbuj ponownie.
+                        Podano błędne dane logowania. Spróbuj ponownie.
                     </Dialog>
                     <Card>
                         <CardTitle title='Logowanie :)'/>

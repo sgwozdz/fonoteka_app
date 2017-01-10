@@ -36,9 +36,8 @@ export class Layout extends React.Component {
         };
         this.handleClose = this.handleClose.bind(this);
     }
-    componentDidMount(){
-        var dialog = getParameterByName('dialog');
-        window.history.pushState('', 'Start - Fonoteka', '/' );
+    componentWillReceiveProps(nextProps) {
+        var dialog = nextProps.params.dialog;
         if (dialog) {
             var open = true;
             var title = '';
@@ -67,7 +66,6 @@ export class Layout extends React.Component {
             })
         }
     }
-   
     handleClose(){
         this.setState({dialogOpen: !this.state.dialogOpen});
     };
@@ -76,6 +74,7 @@ export class Layout extends React.Component {
          const actions = [
             <RaisedButton
                 label="Ok"
+                primary={true}
                 onTouchTap={this.handleClose}/>
         ];
         return (

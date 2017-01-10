@@ -50,12 +50,12 @@ export class Register extends Component {
                     case 100:
                         cookie.save('userId', request.response.userId, { path: '/' });
                         cookie.save('username', request.response.username, { path: '/' });
-                        window.location = '/?dialog=1';
+                        request._this.props.router.push('/dialog/1');
                         break;
                     case 301:
                         request._this.setState({
                             open: true,
-                            dialogContent: 'Niestety już istnieje użytkownik o takiej nazwie. Spróbuj ponownie używając innej nazwy użytkownika.'
+                            dialogContent: 'Niestety już istnieje konto o takiej nazwie użytkownika. Spróbuj ponownie używając innej nazwy użytkownika.'
                         })
                         break;
                     case 302:
@@ -129,7 +129,7 @@ export class Register extends Component {
                 <div className="pure-u-1-3">&nbsp;</div>
                 <div className='pure-u-1-3 text-center'>
                     <Dialog
-                        title='Błąd rejestracji'
+                        title='Błąd w trakcie rejestracji'
                         actions={actions}
                         modal={false}
                         open={this.state.open}
@@ -137,7 +137,7 @@ export class Register extends Component {
                         {this.state.dialogContent}
                     </Dialog>
                     <Card>
-                        <CardTitle title='Zakładanie konta :)'/>
+                        <CardTitle title='Rejestracja :)'/>
                         <form onSubmit={this.handleSubmit}>
                             <CardText>
                                 <div>

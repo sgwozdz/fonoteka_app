@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import {GridList, GridTile} from 'material-ui/GridList';
-import {FlatButton, TextField} from 'material-ui';
+import {RaisedButton} from 'material-ui';
 import {post} from '../../script/graphqlHTTP';
 import cookie from 'react-cookie';
 
@@ -21,10 +21,7 @@ export class Profile extends Component {
             },
             ratedAlbums:[]
         };
-
-        this.handleChange = this
-            .handleChange
-            .bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -38,7 +35,7 @@ export class Profile extends Component {
         }
         request.send(JSON.stringify({query: query}));
 
-        var query2 = '{albums (ratingUserId: ' + JSON.stringify(userId) + ') {_id, title, artists{name}, released, ratings{user_id, rate}}}';
+        var query2 = '{albums (ratingUserId: ' + JSON.stringify(userId) + ') {_id, title, cover, ratings{user_id, rate}}}';
         var request2 = post();
         request2._this = this;
         request2.onload = function () {
@@ -47,14 +44,14 @@ export class Profile extends Component {
                     element.rate = element.ratings.filter((x)=> x.user_id === userId)[0].rate;
                     delete element.ratings;
 
-                    var albums = this.state.ratedAlbums;
+                    var albums = request2._this.state.ratedAlbums;
                     albums.push(element);
 
-                    request._this.setState({ratedAlbums: albums})
+                    request2._this.setState({ratedAlbums: albums})
                 })
             }
         }
-        request2.send(JSON.stringify({query: query}));
+        request2.send(JSON.stringify({query: query2}));
     }
 
     handleChange(event) {
@@ -88,7 +85,7 @@ export class Profile extends Component {
                             </div>
                         </CardText>
                         <CardActions>
-                            <FlatButton label="Edytuj" containerElement={<Link to="/profile/edit"/>}/>
+                            <RaisedButton label="Edytuj" primary={true} containerElement={<Link to="/profile/edit"/>}/>
                         </CardActions>
                     </Card>
                 </div>
@@ -102,6 +99,7 @@ export class Profile extends Component {
                                     key={album._id}
                                     title={album.title}
                                     subtitle={<span>oceniono na <b>{album.rate}</b></span>}>
+                                        <img src={album.cover} alt='brak zdjęcia'/>
                                     </GridTile>
                                  ))}
                             </GridList>
