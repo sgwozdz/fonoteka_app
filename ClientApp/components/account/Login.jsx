@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
-import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
-import {FlatButton, TextField, Dialog} from 'material-ui';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import {RaisedButton, TextField, Dialog} from 'material-ui';
 import cookie from 'react-cookie';
 
 export class Login extends Component {
@@ -11,8 +10,7 @@ export class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            open: false,
-            logged: false
+            open: false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +24,6 @@ export class Login extends Component {
             username: this.state.username,
             password: this.state.password
         };
-        var _this = this;
 
         var request = new XMLHttpRequest();
         request.responseType = 'json';
@@ -61,11 +58,12 @@ export class Login extends Component {
     handleClose(){
         this.setState({open: !this.state.open});
     };
-
+    
     render() {
         const actions = [
-            <FlatButton
+            <RaisedButton
                 label="Ok"
+                primary={true}
                 onTouchTap={this.handleClose}/>
         ];
         return (
@@ -88,7 +86,6 @@ export class Login extends Component {
                                     <TextField
                                         name='username'
                                         floatingLabelText='login'
-                                        errorText=''
                                         value={this.state.username}
                                         onChange={this.handleChange}/><br/>
                                     <TextField
@@ -100,7 +97,7 @@ export class Login extends Component {
                                 </div>
                             </CardText>
                             <CardActions>
-                                <FlatButton label='Zaloguj' type='submit'/>
+                                <RaisedButton label='Zaloguj' type='submit' primary={true}/>
                             </CardActions>
                         </form>
                     </Card>

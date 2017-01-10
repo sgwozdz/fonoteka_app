@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
-import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
-import {FlatButton, TextField, Dialog} from 'material-ui';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import {RaisedButton, TextField, Dialog} from 'material-ui';
 import cookie from 'react-cookie';
 
 export class Register extends Component {
@@ -104,10 +103,12 @@ export class Register extends Component {
         if (this.state.data.username == '' || this.state.data.password == '' || this.state.data.passwordAgain == '' || this.state.data.email == '') {
             disabled = true;
         }
-        for (var error in errors) 
+
+        for (var error in errors){
             if (errors[error] != '') {
                 disabled = true;
             }
+        }
         
         this.setState({buttonDisabled: disabled})
     }
@@ -118,11 +119,11 @@ export class Register extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <RaisedButton
                 label="Ok"
+                primary={true}
                 onTouchTap={this.handleClose}/>
         ];
-
         return (
             <div className='pure-g'>
                 <div className="pure-u-1-3">&nbsp;</div>
@@ -169,9 +170,10 @@ export class Register extends Component {
                                 </div>
                             </CardText>
                             <CardActions>
-                                <FlatButton
+                                <RaisedButton
                                     label='Zakładam konto'
                                     type='submit'
+                                    primary={true}
                                     disabled={this.state.buttonDisabled}/>
                             </CardActions>
                         </form>
