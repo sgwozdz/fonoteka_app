@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as $ from 'jquery';
+import {post} from '../../script/graphqlHTTP';
 import {RaisedButton, Dialog} from 'material-ui';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import {Step, Stepper, StepButton } from 'material-ui/Stepper';
@@ -52,11 +52,13 @@ export class AddAlbum extends React.Component{
     }
     
     componentDidMount() {
-         $.post("http://localhost:4000/graphql", {
-                query: '{genres {_id, label}}'
-            }, function (response) {
-                this.setState({genresData: response.data.genres})
-            }.bind(this), "json");
+        var query = '{genres {_id, label}}';
+        var request = post();
+        request._this = this;
+        request.onload = function () {
+            request._this.setState({genresData: request.response.data.genres})
+        }
+        request.send(JSON.stringify({query: query}));
     }
 
     handleChange(event) {
@@ -100,13 +102,15 @@ export class AddAlbum extends React.Component{
                 tracksQuery += ']';
             }
 
-            var query = "mutation{albumAdd(title:" + JSON.stringify(this.state.title) + ", released:" + JSON.stringify(this.state.released) + genresQuery + ", cover:" + JSON.stringify(this.state.cover) + artistsQuery + tracksQuery + ") {_id}}";
-            console.log(query);
-            $.post("http://localhost:4000/graphql", {
-                query: query
-            }, function (response) {
-                window.location = '/?dialog=2';
-            }.bind(this), "json");
+            var query = 'mutation{albumAdd(title:' + JSON.stringify(this.state.title) + ', released:' + JSON.stringify(this.state.released) 
+            + genresQuery + ', cover:' + JSON.stringify(this.state.cover) + artistsQuery + tracksQuery + ') {_id}}';
+            var request = post();
+            request.onload = function () {
+                if (request.response.data.albumAdd) {
+                    window.location = '/?dialog=2';
+                }
+            }
+            request.send(JSON.stringify({query: query}));
         }
     }
 

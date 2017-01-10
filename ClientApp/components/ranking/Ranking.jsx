@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RankingElement } from './RankingElement';
-import * as $ from 'jquery';
+import {post} from '../../script/graphqlHTTP';
 
 export class Ranking extends React.Component {
     constructor(props) {
@@ -12,9 +12,13 @@ export class Ranking extends React.Component {
     }
     
     componentDidMount() {
-    $.post("http://localhost:4000/graphql", {query: "{rankedAlbums (limit:10) {_id, title, averageRate}}"}, function(response) {
-        this.setState({albums: response.data.rankedAlbums})
-         }.bind(this), "json");
+        var query = "{rankedAlbums (limit:10) {_id, title, averageRate}}";
+        var request = post();
+        request._this = this;
+        request.onload = function () {
+            request._this.setState({albums: request.response.data.rankedAlbums})
+        }
+        request.send(JSON.stringify({query: query}));
     }
     
     render() {

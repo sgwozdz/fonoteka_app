@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import {FlatButton, TextField, Dialog} from 'material-ui';
-import * as $ from 'jquery';
 import cookie from 'react-cookie';
 
 export class Register extends Component {
@@ -41,34 +40,34 @@ export class Register extends Component {
             email: this.state.data.email
         };
 
-        var _this = this;
-
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            url: 'http://localhost:4000/register',
-            success: function (data) {
-                switch (data.status) {
+        var request = new XMLHttpRequest();
+        request.responseType = 'json';
+        request.open('POST', 'http://localhost:4000/register');
+        request.setRequestHeader("Content-Type", "application/json");
+        request.setRequestHeader("Accept", "application/json");
+        request._this = this;
+        request.onload = function() {
+            switch (request.response.status) {
                     case 100:
-                        cookie.save('userId', data.userId, { path: '/' });
-                        cookie.save('username', data.username, { path: '/' });
+                        cookie.save('userId', request.response.userId, { path: '/' });
+                        cookie.save('username', request.response.username, { path: '/' });
                         window.location = '/?dialog=1';
                         break;
                     case 301:
-                        _this.setState({
+                        request._this.setState({
                             open: true,
                             dialogContent: 'Niestety już istnieje użytkownik o takiej nazwie. Spróbuj ponownie używając innej nazwy użytkownika.'
                         })
                         break;
                     case 302:
-                        _this.setState({
+                        request._this.setState({
                             open: true,
                             dialogContent: 'Podany adres email jest już zajęty przez innego użytkownika. Spróbuj ponownie używając innego adresu email.'
                         })
                 }
-            }
-        });
+        };
+
+        request.send(JSON.stringify(data));;
     }
 
     handleChange(event) {

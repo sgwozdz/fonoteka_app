@@ -1,11 +1,11 @@
 import * as React from 'react';
-import * as $ from 'jquery';
 import {FlatButton,TextField,SelectField,Chip,MenuItem,
     Dialog,DatePicker,RaisedButton,AutoComplete} from 'material-ui';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import CheckCircle from 'material-ui/svg-icons/action/check-circle';
 import {Step, Stepper, StepButton} from 'material-ui/Stepper';
 import {TimeField} from '../utils/TimeField';
+import {post} from '../../script/graphqlHTTP';
 
 export class StepOne extends React.Component {
     constructor(props) {
@@ -57,7 +57,6 @@ export class StepOne extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUpdateInput = this.handleUpdateInput.bind(this);
         this.handleNewRequest = this.handleNewRequest.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -150,40 +149,21 @@ export class StepOne extends React.Component {
         this.props.onChange({target: {name: name, value: array}});
     }
 
-    handleSubmit() {
-        event.preventDefault();
-        var genresQuery = '';
-        if (this.state.genres.length != 0) {
-            genresQuery = ', genres:[' + this.state.genres.map(x => x.key) + ']';
-        }
-        var artistsQuery = '';
-        if (this.state.artists.length != 0) {
-            artistsQuery = ', artists:[' + this.state.artists.map(x => JSON.stringify(x._id)) + ']';
-        }
-
-        var query = "mutation{albumAdd(title:" + JSON.stringify(this.state.title) 
-        + ", released:" + JSON.stringify(this.state.released) 
-        + genresQuery 
-        + ", cover:" + JSON.stringify(this.state.cover) 
-        + artistsQuery + ") {_id}}";
-        console.log(query);
-        $.post("http://localhost:4000/graphql", {
-            query: query
-        }, function (response) {
-            console.log(response.data.albumAdd._id);
-        }.bind(this), "json");
-    }
-
     handleUpdateInput(searchText) {
         var autoComplete = this.state.autoComplete;
         autoComplete.searchText = searchText;
 
-        $.post("http://localhost:4000/graphql", {
-            query: '{artists (name: ' + JSON.stringify(searchText) + '){_id, name}}'
-        }, function (response) {
-            autoComplete.data = response.data.artists;
-            this.setState({autoComplete: autoComplete})
-        }.bind(this), "json");
+        var query = '{artists (name: ' + JSON.stringify(searchText) + '){_id, name}}';
+        var request = post();
+        request._this = this;
+        request.searchText = searchText;
+        request.onload = function () {
+            var autocomplete = request._this.state.autoComplete;
+            autoComplete.searchText = searchText;
+            autocomplete.data = request.response.data.artists;
+            request._this.setState({autoComplete: autoComplete})
+        }
+        request.send(JSON.stringify({query: query}));
     };
 
     handleNewRequest(value) {

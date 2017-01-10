@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as $ from 'jquery';
 import {FlatButton,TextField,SelectField,Chip,MenuItem,
     Dialog,DatePicker,RaisedButton,AutoComplete} from 'material-ui';
 import {TimeField} from '../utils/TimeField';

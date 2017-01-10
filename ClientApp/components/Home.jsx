@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {NewsCard} from './card/NewsCard'
 import cookie from 'react-cookie';
-import * as $ from 'jquery';
+import {post} from '../script/graphqlHTTP';
 
 export class Home extends Component {
     constructor(props) {
@@ -12,13 +12,13 @@ export class Home extends Component {
     }
 
     componentDidMount() {
-        $
-            .post("http://localhost:4000/graphql", {
-                query: "{posts {_id, title, author {_id, username}, createDate, body}}"
-            }, function (response) {
-                var parsedResponse = JSON.stringify(response.data.posts);
-                this.setState({posts: response.data.posts})
-            }.bind(this), "json");
+        var query = '{posts {_id, title, author {_id, username}, createDate, body}}';
+        var request = post();
+        request._this = this;
+        request.onload = function () {
+            request._this.setState({posts: request.response.data.posts})
+        }
+        request.send(JSON.stringify({query: query}));
     }
 
     render() {

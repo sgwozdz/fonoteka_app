@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {BaseElement} from './BaseElement';
 import {Link} from 'react-router';
-import * as $ from 'jquery';
 import {FlatButton, TextField, SelectField, Chip, MenuItem, Dialog, DatePicker } from 'material-ui';
 import { white, cyan800
 } from 'material-ui/styles/colors';
+import {post} from '../../script/graphqlHTTP';
 
 
 export class Base extends React.Component {
@@ -28,11 +28,13 @@ export class Base extends React.Component {
     }
 
     getGenres() {
-        $.post("http://localhost:4000/graphql", {
-                query: '{genres {_id, label}}'
-            }, function (response) {
-                this.setState({genres: response.data.genres})
-            }.bind(this), "json");
+        var query = "{genres {_id, label}}";
+        var request = post();
+        request._this = this;
+        request.onload = function () {
+            request._this.setState({genres: request.response.data.genres})
+        }
+        request.send(JSON.stringify({query: query}));
     }
 
     getAlbums(title, chips){
@@ -50,13 +52,14 @@ export class Base extends React.Component {
         if(this.state.chipData.length != 0){
             genresQuery = ', genres:[' + this.state.chipData.map(x=> x.key) + ']';
         }
-        var albumsQuery = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, cover}}';
-        $.post("http://localhost:4000/graphql", {
-                query: albumsQuery
-            }, function (response) {
-                this.setState({albums: response.data.albums})
-            }.bind(this), "json");
-   
+
+        var query = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, cover}}';
+        var request = post();
+        request._this = this;
+        request.onload = function () {
+            request._this.setState({albums: request.response.data.albums})
+        }
+        request.send(JSON.stringify({query: query}));
     }
     handleChange(event){
         this.setState({searchValue: event.target.value});

@@ -9,7 +9,7 @@ import {
 } from 'material-ui/Card';
 import {FlatButton, Slider, Dialog} from 'material-ui';
 import cookie from 'react-cookie';
-import * as $ from 'jquery';
+import {post} from '../../script/graphqlHTTP';
 
 export class BaseElement extends React.Component {
     constructor(props) {
@@ -54,14 +54,15 @@ export class BaseElement extends React.Component {
             + JSON.stringify(this.props.album._id) 
             + ', user_id:' + JSON.stringify(cookie.load('userId')) 
             + ', rate: ' + this.state.sliderValue + '){user_id, rate}}';
-            $.post("http://localhost:4000/graphql", {
-                    query: query
-                }, function () {
-                    this.setState({
-                        dialogTitle: 'Właśnie oceniłeś album! Dziękujemy :)',
-                        open: !this.state.open
-                    });
-                }.bind(this), "json");   
+            var request = post();
+            request._this = this;
+            request.onload = function () {
+                request._this.setState({
+                    dialogTitle: 'Właśnie oceniłeś album! Dziękujemy :)',
+                    open: !this.state.open
+                })
+            }
+            request.send(JSON.stringify({query: query}));
         }
         else{
             this.setState({

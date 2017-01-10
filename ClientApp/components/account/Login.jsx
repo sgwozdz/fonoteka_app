@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import {FlatButton, TextField, Dialog} from 'material-ui';
-import * as $ from 'jquery';
 import cookie from 'react-cookie';
 
 export class Login extends Component {
@@ -28,26 +27,29 @@ export class Login extends Component {
             password: this.state.password
         };
         var _this = this;
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            url: 'http://localhost:4000/login',
-            success: function (data) {
-                switch (data.status) {
+
+        var request = new XMLHttpRequest();
+        request.responseType = 'json';
+        request.open('POST', 'http://localhost:4000/login');
+        request.setRequestHeader("Content-Type", "application/json");
+        request.setRequestHeader("Accept", "application/json");
+        request._this = this;
+        request.onload = function() {
+            switch (request.response.status) {
                     case 100:
-                        cookie.save('userId', data.userId, { path: '/' });
-                        cookie.save('username', data.username, { path: '/' });
+                        cookie.save('userId', request.response.userId, { path: '/' });
+                        cookie.save('username', request.response.username, { path: '/' });
                         window.location = '/';
                         break;
                     case 200:
-                        _this.setState({
+                         request._this.setState({
                             open: true
                         })
                         break;
                 }
-            }
-        });
+        };
+
+        request.send(JSON.stringify(data));;
     }
 
     handleChange(event) {
