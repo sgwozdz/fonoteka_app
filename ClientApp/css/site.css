@@ -46,3 +46,6 @@ select:-webkit-autofill:focus {
 .text-center{
   text-align: center
 }
+.width-100{
+  width: 100px;
+}

@@ -77,8 +77,8 @@ export class StepThree extends React.Component {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>tytuł</th>
-                                <th>feat</th>
+                                <th className='text-center width-100'>tytuł</th>
+                                <th className='text-center width-100'>feat</th>
                                 <th>czas</th>
                             </tr>
                         </thead>

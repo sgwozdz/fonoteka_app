@@ -63,14 +63,13 @@ export class StepOne extends React.Component {
     }
 
     componentDidMount() {
-        $
-            .post("http://localhost:4000/graphql", {
-                query: '{genres {_id, label}}'
-            }, function (response) {
-                this.setState({genresData: response.data.genres})
-            }.bind(this), "json");
-
-            
+        var query = "{genres {_id, label}}";
+        var request = post();
+        request._this = this;
+        request.onload = function () {
+            request._this.setState({genresData: request.response.data.genres})
+        }
+        request.send(JSON.stringify({query: query}));
     }
     componentWillUnmount(){
         this.handleTitleChange({target: {name:'title', value: this.state.title}});

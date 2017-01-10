@@ -16,7 +16,11 @@ export class BaseElement extends React.Component {
         super(props);
 
         this.state = {
-            sliderValue: 5,
+            title: this.props.album.title || '',
+            artists: this.props.album.artists || [],
+            released: this.props.album.released || null,
+            sliderValue: 1,
+            userId: cookie.load("userId") || '',
             open: false,
             dialogTitle: ''
         }
@@ -39,6 +43,17 @@ export class BaseElement extends React.Component {
         this.closeDialog = this.closeDialog.bind(this);
     }
 
+    componentDidMount() {
+        if (this.props.album.ratings && this.state.userId) {
+            var userRate = this.props.album.ratings.find(x=> x.user_id ===this.state.userId);
+            if (userRate) {
+                this.setState({
+                    sliderValue: userRate.rate,
+                    rated: true
+                })
+            }
+        }
+    }
     hanldeSliderChange(event, value) {
         this.setState({sliderValue: value});
     };
@@ -48,18 +63,18 @@ export class BaseElement extends React.Component {
         });
     }
     handleDialog() {
-        if(cookie.load('userId'))
+        if(this.state.userId)
         {
             var query = 'mutation{ratingAdd(album_id:' 
             + JSON.stringify(this.props.album._id) 
-            + ', user_id:' + JSON.stringify(cookie.load('userId')) 
+            + ', user_id:' + JSON.stringify(this.state.userId) 
             + ', rate: ' + this.state.sliderValue + '){user_id, rate}}';
             var request = post();
             request._this = this;
             request.onload = function () {
                 request._this.setState({
                     dialogTitle: 'Właśnie oceniłeś album! Dziękujemy :)',
-                    open: !this.state.open
+                    open: !request._this.state.open
                 })
             }
             request.send(JSON.stringify({query: query}));
@@ -75,9 +90,7 @@ export class BaseElement extends React.Component {
         const buttonLabel = 'daję ' + this.state.sliderValue + '/10';
         return (
             <Card>
-                <CardHeader
-                    title={this.props.album.title}
-                    subtitle={new Date(this.props.album.released).toLocaleDateString()}/>
+                <CardHeader title={this.props.album.title} subtitle={this.state.artists.map(x=> x.name).join()}/>
                 <CardMedia>
                 <img src={this.props.album.cover}/>
                 </CardMedia>
@@ -88,11 +101,13 @@ export class BaseElement extends React.Component {
                             max={10}
                             step={1}
                             value={this.state.sliderValue}
+                            disabled={this.state.userId ? false : true}
                             sliderStyle={this.styles.sliderInner}
                             onChange={this.hanldeSliderChange}/>
                         <FlatButton 
                             label={buttonLabel}  
                             style={this.styles.button} 
+                            disabled={this.state.userId ? false : true}
                             onTouchTap={this.handleDialog}/>
                         <Dialog
                             title={this.state.dialogTitle}

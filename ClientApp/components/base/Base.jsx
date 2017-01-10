@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {BaseElement} from './BaseElement';
 import {Link} from 'react-router';
-import {FlatButton, TextField, SelectField, Chip, MenuItem, Dialog, DatePicker } from 'material-ui';
+import {RaisedButton, TextField, SelectField, Chip, MenuItem, Dialog, DatePicker } from 'material-ui';
 import { white, cyan800
 } from 'material-ui/styles/colors';
 import {post} from '../../script/graphqlHTTP';
-
 
 export class Base extends React.Component {
     constructor(props) {
@@ -26,7 +25,6 @@ export class Base extends React.Component {
         this.getAlbums();
         this.getGenres();
     }
-
     getGenres() {
         var query = "{genres {_id, label}}";
         var request = post();
@@ -36,7 +34,6 @@ export class Base extends React.Component {
         }
         request.send(JSON.stringify({query: query}));
     }
-
     getAlbums(title, chips){
         if (!title) {
             title = this.state.searchvalue;
@@ -52,8 +49,7 @@ export class Base extends React.Component {
         if(this.state.chipData.length != 0){
             genresQuery = ', genres:[' + this.state.chipData.map(x=> x.key) + ']';
         }
-
-        var query = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, cover}}';
+        var query = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, ratings {user_id, rate}, cover}}';
         var request = post();
         request._this = this;
         request.onload = function () {
@@ -102,24 +98,36 @@ export class Base extends React.Component {
         const padding = {
             paddingTop: 10
         };
+        const marginTop = {
+            marginTop: 30,
+            float: 'right'
+        };
         return <div>          
             <div className='pure-g'>
-                <div className='pure-u-1'>
-                    <TextField floatingLabelText="Wyszukiwanie..." 
-                    floatingLabelStyle={colorCyan800} 
-                    inputStyle={inputColor} 
-                    underlineStyle={colorCyan800} 
-                    onChange={this.handleChange}/>
-                    <FlatButton label="Dodaj album" containerElement={<Link to="/addAlbum"/>}/>
+                <div className='pure-u-2-3'>
+                    <div className='pure-u-sm-1 pure-u-md-2-3'>
+                        <TextField floatingLabelText="Wyszukiwanie..." 
+                            floatingLabelStyle={colorCyan800} 
+                            inputStyle={inputColor} 
+                            underlineStyle={colorCyan800} 
+                            onChange={this.handleChange}/>
+                    </div>
+                    <div className='pure-u-sm-1 pure-u-md-1-3'>
+                        <RaisedButton 
+                            label="Dodaj album"
+                            primary={true}
+                            style={marginTop}
+                            containerElement={<Link to="/addAlbum"/>}/>
+                    </div>
                 </div>
             </div>
             <div className='pure-g'>
-                <div className='pure-u-2-3' >
+                <div className='pure-u-sm-2-3' >
                     {this
                         .state
                         .albums
                         .map(album => 
-                        <div className='pure-u-1-2' style={padding} key={album._id}>
+                        <div className='pure-u-sm-1-2 pure-u-lg-1-3' style={padding} key={album._id}>
                             <BaseElement album={album}/>
                         </div>)}
                 </div>

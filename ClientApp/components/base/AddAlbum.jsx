@@ -105,9 +105,10 @@ export class AddAlbum extends React.Component{
             var query = 'mutation{albumAdd(title:' + JSON.stringify(this.state.title) + ', released:' + JSON.stringify(this.state.released) 
             + genresQuery + ', cover:' + JSON.stringify(this.state.cover) + artistsQuery + tracksQuery + ') {_id}}';
             var request = post();
+            request._this = this;
             request.onload = function () {
                 if (request.response.data.albumAdd) {
-                    window.location = '/?dialog=2';
+                    request._this.props.router.push('/dialog/2');
                 }
             }
             request.send(JSON.stringify({query: query}));
@@ -158,6 +159,7 @@ export class AddAlbum extends React.Component{
         const actions = [
             <RaisedButton
                 label="Ok"
+                primary={true}
                 onTouchTap={this.handleClose}/>
         ];
         return (
