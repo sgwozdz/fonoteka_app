@@ -6,6 +6,10 @@ import CheckCircle from 'material-ui/svg-icons/action/check-circle';
 import {Step, Stepper, StepButton} from 'material-ui/Stepper';
 import {TimeField} from '../utils/TimeField';
 import {post} from '../../script/graphqlHTTP';
+import IntlPolyfill from 'intl';
+const DateTimeFormat = IntlPolyfill.DateTimeFormat;
+require('intl/locale-data/jsonp/pl');
+require('intl/locale-data/jsonp/pl-PL');
 
 export class StepOne extends React.Component {
     constructor(props) {
@@ -169,13 +173,28 @@ export class StepOne extends React.Component {
         var artist = this.state.autoComplete.data.find((x) => x.name === value);
         var artists = this.state.artists;
 
-        if (artists.indexOf(artist) === -1) 
+        if (artist != null && artists.indexOf(artist) === -1) {
             artists.push(artist);
-        
+            this.setState({artists: artists});
+        }
+        else{
+            var query = 'mutation{artistAdd(name: '+ JSON.stringify(value) +') {_id, name}}';
+            var request = post();
+            request._this = this;
+            request.onload = function(){
+                var artists = request._this.state.artists;
+                artists.push(request.response.data.artistAdd);
+
+                request._this.setState({albums: artists})
+            }
+
+            request.send(JSON.stringify({query: query}));
+        }
+
         var autoComplete = this.state.autoComplete;
         autoComplete.searchText = '';
 
-        this.setState({artists: artists, autoComplete: autoComplete})
+        this.setState({autoComplete: autoComplete});
         this.props.onChange({target: {name: 'artists', value: artists}});
     };
 
@@ -235,6 +254,10 @@ export class StepOne extends React.Component {
                         <DatePicker
                             name='released'
                             floatingLabelText='data wydania'
+                            DateTimeFormat={DateTimeFormat}
+                            okLabel="akceptuj"
+                            cancelLabel="anuluj"
+                            locale='pl-PL'
                             value={this.state.released}
                             onChange={this.handleDateChange}
                             maxDate={this.state.maxDate}/>

@@ -50,7 +50,7 @@ export class StepThree extends React.Component {
                         <TextField
                             name='artists'
                             disabled={true}
-                            defaultValue={this.state.artists.map(x=> x.name).join()}/>
+                            defaultValue={this.state.artists.map(x=> x.name).join(', ')}/>
                     </div>
                     <div>
                         <TextField
@@ -68,7 +68,7 @@ export class StepThree extends React.Component {
                         <TextField
                             name='genres'
                             disabled={true}
-                            defaultValue={this.state.genres.map(x=>x.label).join()}/>
+                            defaultValue={this.state.genres.map(x=>x.label).join(', ')}/>
                     </div>
                 </div>
                 <div className="pure-u-1-12">&nbsp;</div>

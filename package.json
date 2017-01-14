@@ -23,7 +23,6 @@
     "react-router": "^3.0.0",
     "react-router-relay": "^0.13.5",
     "react-tap-event-plugin": "^2.0.1",
-    "relay": "^0.8.0-1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3"
@@ -45,6 +44,7 @@
   },
   "homepage": "https://github.com/Hiciorman/fonoteka_app#readme",
   "dependencies": {
+    "intl": "^1.2.5",
     "purecss": "^0.6.2"
   }
 }
