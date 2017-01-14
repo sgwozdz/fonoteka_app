@@ -8,21 +8,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const Styles = () => getMuiTheme(darkBaseTheme);
 
-function getParameterByName(name, url) {
-    if (!url) 
-        url = window.location.href;
-
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
-
-    if (!results) 
-        return null;
-    if (!results[2]) 
-        return '';
-
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
 export class Layout extends React.Component {
     constructor(props) {
         super(props);
@@ -30,9 +15,7 @@ export class Layout extends React.Component {
             dialogOpen: false,
             dialogTitle: '',
             dialogText: '',
-            logged: cookie.load('userId')
-                ? true
-                : false
+            logged: cookie.load('userId') ? true : false
         };
         this.handleClose = this.handleClose.bind(this);
     }

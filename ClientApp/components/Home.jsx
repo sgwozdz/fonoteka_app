@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {NewsCard} from './card/NewsCard'
-import cookie from 'react-cookie';
+import {NewsCard} from './newsCard/NewsCard';
 import {post} from '../script/graphqlHTTP';
 
 export class Home extends Component {
@@ -12,7 +11,7 @@ export class Home extends Component {
     }
 
     componentDidMount() {
-        var query = '{posts {_id, title, author {_id, username}, createDate, body}}';
+        var query = '{posts {_id, title, author {_id, username}, picture, createDate, body}}';
         var request = post();
         request._this = this;
         request.onload = function () {

@@ -10,8 +10,12 @@ export class NewsCard extends Component {
         var p = this.props.post;
 
         this.state = {
-            title: p.title,
-            subtitle: p.author ? p.author.username : ''
+            id: p._id || '',
+            title: p.title || '',
+            author: p.author ? (p.author.username || ''): '',
+            picture: p.picture || '',
+            createDate: p.createDate || '',
+            body: p.body || ''
         }
     }
     
@@ -20,14 +24,14 @@ export class NewsCard extends Component {
         return (
             <Card>
                 <CardMedia
-                    overlay={<CardTitle title={this.state.title} subtitle={this.state.subtitle}/>}>
-               <img src={require('../ironman1.jpg')}/> 
+                    overlay={<CardTitle title={this.state.title} subtitle={this.state.author}/>}>
+                <img src={this.state.picture}/>
                 </CardMedia>
                 <CardText>
-                    {this.props.post.body}
+                    {this.state.body.slice(0,100)}...
                 </CardText>
                 <CardActions>
-                    <FlatButton label="Czytaj dalej..." containerElement={<Link to="/news/5"/>}/>
+                    <FlatButton label="Czytaj dalej..." containerElement={<Link to={'/news/' + this.state.id}/>}/>
                 </CardActions>
             </Card>
         );

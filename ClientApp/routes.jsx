@@ -11,7 +11,7 @@ import {AddAlbum} from './components/base/AddAlbum';
 import {Friends} from './components/friends/Friends';
 import {Ranking} from './components/ranking/Ranking';
 import {NotFound} from './components/errors/NotFound';
-import {NewsCardDetails} from './components/card/NewsCardDetails';
+import {NewsCardDetails} from './components/newsCard/NewsCardDetails';
 
 export default <Route path='/(dialog/:dialog)' component={Layout}>
     <IndexRoute components={{ body: Home }} />
