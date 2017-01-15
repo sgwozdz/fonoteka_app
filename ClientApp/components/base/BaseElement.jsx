@@ -10,12 +10,14 @@ import {
 import {FlatButton, Slider, Dialog} from 'material-ui';
 import cookie from 'react-cookie';
 import {post} from '../../script/graphqlHTTP';
+import {Link} from 'react-router';
 
 export class BaseElement extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            id: this.props.album._id || '',
             title: this.props.album.title || '',
             artists: this.props.album.artists || [],
             released: this.props.album.released || null,
@@ -31,8 +33,6 @@ export class BaseElement extends React.Component {
             },
             button:{
                 width: '100%'
-            },
-            buttonLabel:{
             },
             dialog: {
                 textAlign: 'center'
@@ -90,7 +90,9 @@ export class BaseElement extends React.Component {
         const buttonLabel = 'daję ' + this.state.sliderValue + '/10';
         return (
             <Card>
-                <CardHeader title={this.props.album.title} subtitle={this.state.artists.map(x=> x.name).join()}/>
+                <Link to={'/album/details/' + this.state.id}>
+                    <CardHeader className="reset-padding-right" title={this.props.album.title} subtitle={this.state.artists.map(x=> x.name).join()} style={{color: 'red'}}/>
+                </Link>
                 <CardMedia>
                 <img src={this.props.album.cover}/>
                 </CardMedia>
