@@ -35,6 +35,10 @@ export class Layout extends React.Component {
                     text = 'Dziękujemy! Tylko wspólnymi siłami możemy stworzyć coś wspaniałego. :)';
                     break;
                 case '3':
+                    title = 'Dodałeś news!';
+                    text = 'Dziękujemy! Tylko wspólnymi siłami możemy stworzyć coś wspaniałego. :)';
+                    break;
+                case '4':
                     title = 'Cwaniaczku :)';
                     text = 'Korzystamy z super zabezpieczeń stworzonych przez najlepszych specjalistów, nie uda Ci się zhakować tej strony.';
                     break;
@@ -46,6 +50,11 @@ export class Layout extends React.Component {
                 dialogOpen: open,
                 dialogTitle: title,
                 dialogText: text
+            })
+        }
+        else{
+            this.setState({
+                logged: cookie.load('userId') ? true : false
             })
         }
     }

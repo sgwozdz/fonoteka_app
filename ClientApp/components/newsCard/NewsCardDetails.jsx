@@ -37,7 +37,7 @@ export class NewsCardDetails extends Component {
 
     handleAddComment(parent_id, event){
         var commentState = 'comment' + parent_id;
-        var value =this.refs['comment' + parent_id].getValue();
+        var value = this.refs['comment' + parent_id].getValue();
         if (value) {
             var userId = cookie.load('userId');
             var query = 'mutation{commentAdd(post_id: '+ JSON.stringify(this.state.post._id) 

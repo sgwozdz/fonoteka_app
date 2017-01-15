@@ -20,7 +20,6 @@ export class NewsCard extends Component {
     }
     
     render() {
-
         return (
             <Card>
                 <CardMedia
@@ -31,7 +30,7 @@ export class NewsCard extends Component {
                     {this.state.body.slice(0,100)}...
                 </CardText>
                 <CardActions>
-                    <FlatButton label="Czytaj dalej..." containerElement={<Link to={'/news/' + this.state.id}/>}/>
+                    <FlatButton label="Czytaj dalej..." containerElement={<Link to={'/news/details/' + this.state.id}/>}/>
                 </CardActions>
             </Card>
         );
