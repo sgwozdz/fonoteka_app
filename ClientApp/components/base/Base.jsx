@@ -49,7 +49,7 @@ export class Base extends React.Component {
         if(this.state.chipData.length != 0){
             genresQuery = ', genres:[' + this.state.chipData.map(x=> x.key) + ']';
         }
-        var query = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, ratings {user_id, rate}, cover}}';
+        var query = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, artists{_id, name}, ratings {user_id, rate}, cover}}';
         var request = post();
         request._this = this;
         request.onload = function () {
@@ -117,7 +117,7 @@ export class Base extends React.Component {
                             label="Dodaj album"
                             primary={true}
                             style={marginTop}
-                            containerElement={<Link to="/addAlbum"/>}/>
+                            containerElement={<Link to="/album/add"/>}/>
                     </div>
                 </div>
             </div>

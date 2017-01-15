@@ -245,9 +245,7 @@ export class StepOne extends React.Component {
                                 style={this.styles.fileButton}
                                 onChange={this.handleInputChange}/>
                         </RaisedButton>
-                        {this.state.cover
-                            ? <CheckCircle style={this.styles.iconStyle}/>
-                            : ''
+                        {this.state.cover ? <CheckCircle style={this.styles.iconStyle}/> : ''
                         }
                     </div>
                     <div>

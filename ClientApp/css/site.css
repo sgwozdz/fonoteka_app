@@ -46,6 +46,15 @@ select:-webkit-autofill:focus {
 .text-center{
   text-align: center
 }
+.width-500{
+  width: 500px;
+}
+.width-300{
+  width: 300px;
+}
 .width-100{
   width: 100px;
+}
+.reset-padding-right > div{
+  padding-right: 0px !important;
 }

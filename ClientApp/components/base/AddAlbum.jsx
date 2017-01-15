@@ -90,7 +90,7 @@ export class AddAlbum extends React.Component{
                 this.state.tracks.forEach(function(track) {
                     tracksQuery += '{';
                     if (track.id) 
-                        tracksQuery += ' id: '+JSON.stringify(track.id);
+                        tracksQuery += ' id: '+JSON.stringify(track.number);
                     if (track.title)
                         tracksQuery += ' title: '+JSON.stringify(track.title);
                     if (track.feat)
@@ -102,7 +102,7 @@ export class AddAlbum extends React.Component{
                 tracksQuery += ']';
             }
 
-            var query = 'mutation{albumAdd(title:' + JSON.stringify(this.state.title) + ', released:' + JSON.stringify(this.state.released) 
+            var query = 'mutation{albumAdd(title:' + JSON.stringify(this.state.title) + ', length:'+ JSON.stringify(this.state.length) +', released:' + JSON.stringify(this.state.released) 
             + genresQuery + ', cover:' + JSON.stringify(this.state.cover) + artistsQuery + tracksQuery + ') {_id}}';
             var request = post();
             request._this = this;
