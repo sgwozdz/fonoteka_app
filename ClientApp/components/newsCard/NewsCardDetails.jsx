@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {Card, CardActions, CardTitle, CardText, CardMedia, CardHeader} from 'material-ui/Card';
+import {Card, CardTitle, CardText, CardMedia, CardHeader} from 'material-ui/Card';
 import {TextField, RaisedButton} from 'material-ui';
-import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
-import ThumbDownIcon from 'material-ui/svg-icons/action/thumb-down';
 import {post} from '../../script/graphqlHTTP';
 import cookie from 'react-cookie';
+import {grey800} from 'material-ui/styles/colors';
 
 export class NewsCardDetails extends Component {
     constructor(props) {
@@ -21,13 +20,11 @@ export class NewsCardDetails extends Component {
                 likes: [],
                 comments: []
             },
-            comment: '',
             logged: cookie.load('userId') ? true : false
         }
-        this.handleChange = this.handleChange.bind(this);
         this.handleAddComment = this.handleAddComment.bind(this);
     }
-    
+
     componentDidMount() {
         var query = '{posts (id:'+ JSON.stringify(this.props.params.id)+'){_id, title, author {_id, username}, picture, createDate, body, likes, comments {_id, author{_id, username}, parent_id, body, createDate}}}';
         var request = post();
@@ -38,44 +35,35 @@ export class NewsCardDetails extends Component {
         request.send(JSON.stringify({query: query}));
     }
 
-    handleChange(event, value) {
-        if (event.target) {
-            this.setState({
-                [event.target.name]: value
-            })
-        }
-    }
-
     handleAddComment(parent_id, event){
         var commentState = 'comment' + parent_id;
-        var userId = cookie.load('userId');
-        var query = 'mutation{commentAdd(post_id: '+ JSON.stringify(this.state.post._id) 
-        +', body:'+ JSON.stringify(this.state[commentState]) +', author:'+ JSON.stringify(userId) 
-        +', parent_id: '+ JSON.stringify(parent_id) +'){_id, author {_id, username}, parent_id, body, createDate}}';
-        var request = post();
-        request._this = this;
-        request.onload = function () {
-            var post = request._this.state.post;
-            post.comments.push(request.response.data.commentAdd);
-            request._this.setState({post: post});
-        }
+        var value =this.refs['comment' + parent_id].getValue();
+        if (value) {
+            var userId = cookie.load('userId');
+            var query = 'mutation{commentAdd(post_id: '+ JSON.stringify(this.state.post._id) 
+            +', body:'+ JSON.stringify(value) +', author:'+ JSON.stringify(userId) 
+            +', parent_id: '+ JSON.stringify(parent_id) +'){_id, author {_id, username}, parent_id, body, createDate}}';
+            var request = post();
+            request._this = this;
+            request.onload = function () {
+                var post = request._this.state.post;
+                post.comments.push(request.response.data.commentAdd);
+                request._this.setState({post: post});
+            }
 
-        request.send(JSON.stringify({query: query}));
-        this.setState({
-            [commentState]: ''
-        });
+            request.send(JSON.stringify({query: query}));
+            this.refs['comment' + parent_id].getInputNode().value = '';
+        }
     }
 
     render() {
-        const marginTop={
-            marginTop: '30px'
-        }
         const commentStyle={
             marginLeft: '16px',
             width: '90%'
         }
-        const paddingLeft = {
-            paddingLeft: '32px !important'
+        const innerCommentStyle = {
+            paddingLeft: '32px',
+            backgroundColor: grey800
         }
         return (
             <div className='pure-g'>
@@ -87,14 +75,10 @@ export class NewsCardDetails extends Component {
                         </CardMedia>
                         <CardText >
                             {this.state.post.body}
-                            Mówiono o nim w rodzimych serwisach informacyjnych, internauci podłapali temat i zaczęli tworzyć historię kraju, tagować się w San Esobar na zdjęciach z wakacji. Powstały kolejne sanescobariańskie konta na Twitterze i Facebooku: partii opozycyjnej, mediów, ministerstw. Powstała oficjalna waluta, zarys historyczny, mapa, dane ekonomiczne, stanowiska w sprawach politycznych. Kolejne firmy i kolejne fanpejdże zaczęły brać udział w zabawie, oferować promocje związane z krajem, żartować i wykorzystywać popularność San Escobar.
-                            Bawiło mnie to, mimo krytyki wielu osób mówiących, że zamiast skupiać się na kryzysie w Sejmie internet skupia się na głupim przejęzyczeniu. San Escobar stał się wspaniałym sposobem na wyluzowanie, na pozbycie się stresu związanego z napiętą sytuacją polityczną.
-                            Zawsze obserwowałam jak wiralowe żarty rosną, jak internet podłapuje temat i przeradza drobnostki w coś dużego. Nigdy jednak nie znalazłam się pośrednio w środku całej afery. Nagle zaczęli odzywać się do mnie znajomi, nawet ci niemal zapomniani, wysyłając linki do artykułów, w których pojawił się mój tweet, zaczęły spływać komentarze i żarty.
-                            Absurdalność całej sytuacji potwierdzwiła to, co podejrzewam od dawna – media internetowe uwielbiają raportować rzeczy z internetu. Nie bez powodu Facebook ma narzędzia pozwalające dziennikarzom wyszukiwać nowe tematy. Zbiory obrazków stworzonych przez internautów podane jako artykuł, czy przepisywane materiały o tym, co dziś zdarzyło się w sieci, mają dobrą oglądalność. Są łatwe w skompilowaniu, dają też poczucie pośredniego uczestnictwa w wydarzeniu.
                         </CardText>
                     </Card>
                     <div className='pure-u-1-6'></div>
-                    <div className='pure-u-16-24' style={marginTop}>
+                    <div className='pure-u-16-24' style={{marginTop: '30px'}}>
                     {this.state.post.comments.filter(x=> x.parent_id == null).map((comment, cIndex) => 
                         <Card key={cIndex}>
                             <CardHeader
@@ -105,22 +89,21 @@ export class NewsCardDetails extends Component {
                             {this.state.post.comments.filter(y=> y.parent_id == comment._id).map((innerComment, icIndex) => 
                                 <CardHeader
                                     key={icIndex}
-                                    style={paddingLeft}
+                                    style={innerCommentStyle}
                                     title={innerComment.author ? innerComment.author.username || 'Anonimowy' : 'Anonimowy'}
                                     subtitle={innerComment.body}
                                     expandable={true}>
                                 </CardHeader>
                             )}
-                            <CardText expandable={true}>
+                            <CardText expandable={true} style={{backgroundColor: grey800}}>
                                 <TextField
-                                    name={'comment' + comment._id}
+                                    ref={'comment' + comment._id}
+                                    type='text'
                                     floatingLabelText="Odpowiedz na komentarz..."
                                     multiLine={true}
                                     rows={1}
                                     rowsMax={4}
                                     style={commentStyle}
-                                    value={this.state['comment' + comment._id] || ''}
-                                    onChange={this.handleChange}
                                     disabled={!this.state.logged}/>
                                 <div className='text-center'>
                                     <RaisedButton 
@@ -134,14 +117,12 @@ export class NewsCardDetails extends Component {
                         </Card>
                     )}
                     <TextField
-                        name='comment'
+                        ref="comment"
                         floatingLabelText="Napisz komentarz..."
                         multiLine={true}
                         rows={1}
                         rowsMax={4}
                         style={commentStyle}
-                        value={this.state.comment}
-                        onBlur={this.handleChange}
                         disabled={!this.state.logged}/>
                     <div className='text-center'>
                         <RaisedButton 
