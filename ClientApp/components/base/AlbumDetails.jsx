@@ -22,9 +22,8 @@ export class AlbumDetails extends React.Component {
     }
 
     componentDidMount() {
-
-        var query = '{albums (id:' + JSON.stringify(this.props.params.id) + '){title, cover, artists {name}, released, length, genres{label}, tracks{id, titl' +
-                'e, feat, length}}}';
+        var query = '{albums (id:' + JSON.stringify(this.props.params.id) 
+        + '){title, cover, artists {name}, released, length, genres{label}, tracks{id, title, feat, length}}}';
         var request = post();
         request._this = this;
         request.onload = function () {
