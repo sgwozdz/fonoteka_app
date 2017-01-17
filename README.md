@@ -5,6 +5,3 @@
 2. `npm install`
 3. `npm run dev-build`
 4. `npm start`
-
-colors:
-616161
