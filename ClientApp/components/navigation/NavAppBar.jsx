@@ -18,6 +18,7 @@ export class NavAppBar extends Component {
         }
 
         this.handleToggle = this.handleToggle.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleToggle() {
@@ -26,6 +27,11 @@ export class NavAppBar extends Component {
         });
     }
 
+    handleClose() {
+        this.setState({
+            open: false
+        });
+    }
     render() {
         return (
             <div>
@@ -41,7 +47,7 @@ export class NavAppBar extends Component {
                 <LeftDrawer
                     logged={this.props.logged}
                     open={this.state.open}
-                    onChange={this.handleToggle}/>
+                    onChange={this.handleClose}/>
             </div>
         );
     }
