@@ -1,3 +1,9 @@
+#footer {
+   position:fixed;
+   bottom:0px;
+   width:100%; 
+}
+
 #page-wrap{
     padding-top: 10px;
 }

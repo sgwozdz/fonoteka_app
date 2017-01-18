@@ -16,10 +16,12 @@
 <body style="background-color:#616161">
     <div>
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - Fonoteka</p>
-        </footer>
+        <div id='footer'>
+            <hr />
+            <footer>
+                <p>&copy; 2016 - Fonoteka</p>
+            </footer>
+        </div>
     </div>
     <script src="~/dist/vendor.js" asp-append-version="true"></script> @RenderSection("scripts", required: false)
 </body>
