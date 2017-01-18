@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {IconButton, TextField} from 'material-ui';
 import Search from 'material-ui/svg-icons/action/search';
 
-export class SearchBox extends Component{
+export class SearchBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false
         };
+
         this.handleToggle = this.handleToggle.bind(this);
     }
 

@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import {FlatButton,TextField,SelectField,Chip,MenuItem,
     Dialog,DatePicker,RaisedButton,AutoComplete} from 'material-ui';
 import {TimeField} from '../utils/TimeField';
 
-export class StepThree extends React.Component {
+export class StepThree extends Component {
     constructor(props) {
         super(props);
 

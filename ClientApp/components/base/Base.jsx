@@ -1,12 +1,11 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import {BaseElement} from './BaseElement';
 import {Link} from 'react-router';
 import {RaisedButton, TextField, SelectField, Chip, MenuItem, Dialog, DatePicker } from 'material-ui';
-import { white, cyan800
-} from 'material-ui/styles/colors';
+import {white, cyan800} from 'material-ui/styles/colors';
 import {post} from '../../script/graphqlHTTP';
 
-export class Base extends React.Component {
+export class Base extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,6 +15,7 @@ export class Base extends React.Component {
             chipData: [],
             genres: []
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
@@ -25,6 +25,7 @@ export class Base extends React.Component {
         this.getAlbums();
         this.getGenres();
     }
+
     getGenres() {
         var query = "{genres {_id, label}}";
         var request = post();
@@ -32,8 +33,10 @@ export class Base extends React.Component {
         request.onload = function () {
             request._this.setState({genres: request.response.data.genres})
         }
+
         request.send(JSON.stringify({query: query}));
     }
+
     getAlbums(title, chips){
         if (!title) {
             title = this.state.searchvalue;
@@ -41,6 +44,7 @@ export class Base extends React.Component {
         if (!chips) {
             chips = this.state.chipData;
         }
+        
         var titleQuery = '';
         var genresQuery = '';
         if (title) {
@@ -49,24 +53,29 @@ export class Base extends React.Component {
         if(this.state.chipData.length != 0){
             genresQuery = ', genres:[' + this.state.chipData.map(x=> x.key) + ']';
         }
+
         var query = '{albums (limit:50' + titleQuery + genresQuery + ') {_id, title, released, artists{_id, name}, ratings {user_id, rate}, cover}}';
         var request = post();
         request._this = this;
         request.onload = function () {
             request._this.setState({albums: request.response.data.albums})
         }
+        
         request.send(JSON.stringify({query: query}));
     }
+
     handleChange(event){
         this.setState({searchValue: event.target.value});
         this.getAlbums(event.target.value);
     }
+
     handleSelectChange (event, index, value){
         var chips = this.state.chipData;
         chips.push({key: value, label: event.target.innerText});
         this.setState({chipData: chips});
         this.getAlbums(null, chips)
     }
+
     handleRequestDelete(key){
         this.chipData = this.state.chipData;
         const chipToDelete = this.chipData.map((chip) => chip.key).indexOf(key);
@@ -74,20 +83,23 @@ export class Base extends React.Component {
         this.setState({chipData: this.chipData});
         this.getAlbums(null, this.chipData)
     }
+
     handleToggle() {
         this.setState({
             isDialogOpen: !this.state.isDialogOpen
         });
     }
+
     renderChip(data) {
-    return (
-        <Chip
-            key={data.key}
-            onRequestDelete={() => this.handleRequestDelete(data.key)}>
-            {data.label}
-        </Chip>
-        );
+        return (
+            <Chip
+                key={data.key}
+                onRequestDelete={() => this.handleRequestDelete(data.key)}>
+                {data.label}
+            </Chip>
+            );
     }
+    
     render() {
         const inputColor = {
             color: 'blue'

@@ -1,18 +1,11 @@
-import * as React from 'react';
-import {
-    Card,
-    CardHeader,
-    CardActions,
-    CardTitle,
-    CardText,
-    CardMedia
-} from 'material-ui/Card';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {Card, CardHeader, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import {FlatButton, Slider, Dialog} from 'material-ui';
 import cookie from 'react-cookie';
 import {post} from '../../script/graphqlHTTP';
-import {Link} from 'react-router';
 
-export class BaseElement extends React.Component {
+export class BaseElement extends Component {
     constructor(props) {
         super(props);
 
@@ -38,6 +31,7 @@ export class BaseElement extends React.Component {
                 textAlign: 'center'
             }
         }
+
         this.hanldeSliderChange = this.hanldeSliderChange.bind(this);
         this.handleDialog = this.handleDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
@@ -54,14 +48,17 @@ export class BaseElement extends React.Component {
             }
         }
     }
+
     hanldeSliderChange(event, value) {
         this.setState({sliderValue: value});
     };
+    
     closeDialog(){
         this.setState({
             open: !this.state.open
         });
     }
+
     handleDialog() {
         if(this.state.userId)
         {
@@ -86,6 +83,7 @@ export class BaseElement extends React.Component {
             });
         }     
     };
+
     render() {
         const buttonLabel = 'daję ' + this.state.sliderValue + '/10';
         return (

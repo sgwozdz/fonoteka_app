@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import {post} from '../../script/graphqlHTTP';
 import cookie from 'react-cookie';
 import {RaisedButton, TextField} from 'material-ui';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import CheckCircle from 'material-ui/svg-icons/action/check-circle';
 
-export class AddNews extends React.Component {
+export class AddNews extends Component {
     constructor(props) {
         super(props);
 

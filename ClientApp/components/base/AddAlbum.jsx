@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import {post} from '../../script/graphqlHTTP';
 import {RaisedButton, Dialog} from 'material-ui';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
@@ -8,7 +8,7 @@ import {StepTwo} from '../addAlbum/StepTwo';
 import {StepThree} from '../addAlbum/StepThree';
 import ArrowForward from  'material-ui/svg-icons/navigation/arrow-forward';
 
-export class AddAlbum extends React.Component{
+export class AddAlbum extends Component{
     constructor(props) {
         super(props);
 
@@ -45,6 +45,7 @@ export class AddAlbum extends React.Component{
                 textAlign: 'left'
             }
         };
+
         this.handleChange = this.handleChange.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.getStepContent = this.getStepContent.bind(this);
@@ -58,6 +59,7 @@ export class AddAlbum extends React.Component{
         request.onload = function () {
             request._this.setState({genresData: request.response.data.genres})
         }
+
         request.send(JSON.stringify({query: query}));
     }
 
@@ -111,6 +113,7 @@ export class AddAlbum extends React.Component{
                     request._this.props.router.push('/dialog/2');
                 }
             }
+
             request.send(JSON.stringify({query: query}));
         }
     }
@@ -125,6 +128,10 @@ export class AddAlbum extends React.Component{
         }
     };
 
+    handleClose(){
+        this.setState({open: !this.state.open});
+    };
+    
     getStepContent(stepIndex) {
         switch (stepIndex) {
         case 0:
@@ -150,10 +157,6 @@ export class AddAlbum extends React.Component{
             return 'Ooops, napisz do nas bo coś poszło nie tak!';
         }
     }
-
-     handleClose(){
-        this.setState({open: !this.state.open});
-    };
 
     render(){
         const actions = [

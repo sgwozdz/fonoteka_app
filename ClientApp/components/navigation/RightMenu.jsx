@@ -19,55 +19,58 @@ export class RightMenu extends Component {
 
         this.handleTap = this.handleTap.bind(this);
     }
+
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps.logged)
         if (nextProps.logged) {
-            console.log(!this.state.friendRequests.length)
             if (!this.state.friendRequests.length) {
                 this.getRequests();
             }                
         }
     }
+
     componentDidMount() {
         this.getUsers();
         this.getRequests();
     }
 
-    getRequests(){
+    getRequests() {
         var userId = cookie.load('userId');
         if (userId) {
             var query = '{friendRequests(to:'+JSON.stringify(userId)+', status:"Created"){_id, from, to, status}}';
             var request = post();
             request._this = this;
             request.onload = function () {
-                request._this.setState({friendRequests: request.response.data.friendRequests})
+                request._this.setState({friendRequests: request.response.data.friendRequests});
             }
+
             request.send(JSON.stringify({query: query}));
         }
     }
 
-    getUsers(){
+    getUsers() {
         var query = '{users{_id, username}}';
         var request = post();
         request._this = this;
         request.onload = function () {
             request._this.setState({users: request.response.data.users});
         }
+
         request.send(JSON.stringify({query: query}));
     }
 
-    handleTap(id, status, event){
+    handleTap(id, status, event) {
         var query = 'mutation{friendRequestUpdate(requestId:'+ JSON.stringify(id) +', status:'+ JSON.stringify(status) +'){_id, from, to, status}}';
         var request = post();
         request._this = this;
         request.onload = function () {
             var requests = request._this.state.friendRequests.filter(x=> x._id !== request.response.data.friendRequestUpdate._id);
-            request._this.setState({friendRequests: requests})
+            request._this.setState({friendRequests: requests});
         }
+
         request.send(JSON.stringify({query: query}));
     }
 
-    renderBadge(){
+    renderBadge() {
         return(
             <Badge
                 badgeContent={this.state.friendRequests.length}

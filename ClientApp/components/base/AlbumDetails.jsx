@@ -4,16 +4,15 @@ import {RaisedButton, TextField, Dialog} from 'material-ui';
 import cookie from 'react-cookie';
 import {post} from '../../script/graphqlHTTP';
 
-export class AlbumDetails extends React.Component {
+export class AlbumDetails extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             album: {
                 title: '',
                 cover: '',
                 artists: [],
-                released: null,
+                released: '',
                 length: '',
                 genres: [],
                 tracks: []
@@ -27,28 +26,10 @@ export class AlbumDetails extends React.Component {
         var request = post();
         request._this = this;
         request.onload = function () {
-            console.log(request.response.data.albums[0]);
-            request
-                ._this
-                .setState({album: request.response.data.albums[0]})
+            request._this.setState({album: request.response.data.albums[0]})
         }
+
         request.send(JSON.stringify({query: query}));
-    }
-
-    renderTrack(track) {
-        const wordWrap = {
-            wordWrap: 'normal',
-            wordBreak: 'break-all'
-        }
-        var feat = track.feat ? ' (feat. '+ track.feat +')' : '';
-
-        return (
-            <tr key={track.number}>
-                <th>{track.number}</th>
-                <th>{track.title+feat}</th>
-                <th>{track.length}</th>
-            </tr>
-        );
     }
 
     render() {
@@ -71,7 +52,7 @@ export class AlbumDetails extends React.Component {
                         <CardTitle title={'Album ' + this.state.album.title}/>
                         <div className='pure-u-1-2'>
                             <div>
-                                <img src={this.state.album.cover}/>
+                                <img src={this.state.album.cover || ''}/>
                             </div>
                         </div>
                         <div className='pure-u-1-3'>
@@ -105,7 +86,7 @@ export class AlbumDetails extends React.Component {
                                     disabled={true}
                                     style={cursorDefault}
                                     inputStyle={whiteColor} 
-                                    value={this.state.album.length}/>
+                                    value={this.state.album.length || ''}/>
                             </div>
                             <div>
                                 <TextField 
@@ -127,7 +108,13 @@ export class AlbumDetails extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.album.tracks.map(this.renderTrack, this)}
+                                    {this.state.album.tracks.map((track, cIndex) =>
+                                        <tr key={cIndex}>
+                                            <th>{track.number || ''}</th>
+                                            <th>{track.title + (track.feat ? ' (feat. '+ track.feat +')' : '')}</th>
+                                            <th>{track.length || ''}</th>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

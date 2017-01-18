@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import {FlatButton,TextField,SelectField,Chip,MenuItem,
     Dialog,DatePicker,RaisedButton,AutoComplete} from 'material-ui';
 import {Card, CardActions, CardTitle, CardText, CardMedia} from 'material-ui/Card';
@@ -11,7 +11,7 @@ const DateTimeFormat = IntlPolyfill.DateTimeFormat;
 require('intl/locale-data/jsonp/pl');
 require('intl/locale-data/jsonp/pl-PL');
 
-export class StepOne extends React.Component {
+export class StepOne extends Component {
     constructor(props) {
         super(props);
 

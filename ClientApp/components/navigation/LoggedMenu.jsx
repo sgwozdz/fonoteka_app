@@ -1,27 +1,24 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-import {MenuItem, IconMenu, IconButton} from 'material-ui';
+import {MenuItem, IconMenu, IconButton, FlatButton} from 'material-ui';
 import Person from 'material-ui/svg-icons/social/person';
 import cookie from 'react-cookie';
-import FlatButton from 'material-ui/FlatButton';
 
-export class LoggedMenu extends Component{
+export class LoggedMenu extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             username: cookie.load('username') || ''
-        }
-      
+        }     
         this.styles = {
-            nameLabel:{
+            nameLabel: {
                 fontSize: '14px',
                 fontWeight: '500',
                 paddingLeft: '10px',
                 paddingRight: '10px',
                 letterSpacing: '0px',
                 verticalAlign: 'super',
-                textTransform: 'uppercase',
+                textTransform: 'uppercase'
             }
         }
 
