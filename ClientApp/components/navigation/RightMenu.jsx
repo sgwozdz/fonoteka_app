@@ -100,7 +100,7 @@ export class RightMenu extends Component {
     render() {
         return (
             <div>
-                <SearchBox/>
+                {/*<SearchBox/> */}     
                 {this.props.logged
                     ? <LoggedMenu/>
                     : <AccountIconMenu/>
@@ -109,7 +109,7 @@ export class RightMenu extends Component {
                     ? this.renderBadge()
                     : ''
                 }
-                <MoreIconMenu/>
+                {/*   <MoreIconMenu/> */}
             </div>
         );
     }

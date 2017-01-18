@@ -30,9 +30,9 @@ export class LeftDrawer extends Component {
             <div> 
                 <Divider />
                 <MenuItem containerElement={<Link to="/friends"/>} onTouchTap={this.handleClose}>Znajomi</MenuItem>
-                <MenuItem containerElement={<Link to="/messages"/>} onTouchTap={this.handleClose}>Wiadomości</MenuItem>
+              { /* <MenuItem containerElement={<Link to="/messages"/>} onTouchTap={this.handleClose}>Wiadomości</MenuItem> 
                 <Divider />
-                <MenuItem containerElement={<Link to="/settings"/>} onTouchTap={this.handleClose}>Ustawienia</MenuItem>
+                <MenuItem containerElement={<Link to="/settings"/>} onTouchTap={this.handleClose}>Ustawienia</MenuItem> */}
             </div>
         );
     }
@@ -43,8 +43,8 @@ export class LeftDrawer extends Component {
                 <div>
                     <MenuItem containerElement={<Link to="/"/>} onTouchTap={this.handleClose}>Aktualności</MenuItem>
                     <MenuItem containerElement={<Link to="/base"/>} onTouchTap={this.handleClose}>Baza</MenuItem>
-                    <MenuItem containerElement={<Link to="/ranking"/>} onTouchTap={this.handleClose}>Ranking</MenuItem>
-                    <MenuItem containerElement={<Link to="/events"/>} onTouchTap={this.handleClose}>Wydarzenia</MenuItem>
+                { /*    <MenuItem containerElement={<Link to="/ranking"/>} onTouchTap={this.handleClose}>Ranking</MenuItem>
+                    <MenuItem containerElement={<Link to="/events"/>} onTouchTap={this.handleClose}>Wydarzenia</MenuItem> */}
                 </div>
                 {this.props.logged ? this.renderLoggedMenu() : ''}
             </Drawer>
