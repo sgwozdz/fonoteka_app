@@ -10,6 +10,7 @@ export class StepThree extends Component {
         this.state= {
             title: this.props.title || '',
             cover: this.props.cover || '',
+            sample: this.props.sample || '',
             released: this.props.released || '',
             length: this.props.length || '',
             artists: this.props.artists || [],
@@ -39,6 +40,9 @@ export class StepThree extends Component {
                 <div className='pure-u-1-3'>
                     <div>
                         <img src={this.state.cover}/>
+                    </div>
+                    <div style={{marginTop: '25px'}}>
+                        <audio controls src={this.state.sample || ''}/>
                     </div>
                     <div>
                         <TextField

@@ -16,6 +16,7 @@ export class AddAlbum extends Component{
             stepIndex: 0,
             title: '',
             cover: '',
+            sample: '',
             released: '',
             length: '',
             artists: [],
@@ -103,9 +104,9 @@ export class AddAlbum extends Component{
                 }, this);
                 tracksQuery += ']';
             }
-
+            //TODO: add sample
             var query = 'mutation{albumAdd(title:' + JSON.stringify(this.state.title) + ', length:'+ JSON.stringify(this.state.length) +', released:' + JSON.stringify(this.state.released) 
-            + genresQuery + ', cover:' + JSON.stringify(this.state.cover) + artistsQuery + tracksQuery + ') {_id}}';
+            + genresQuery + ', cover:' + JSON.stringify(this.state.cover) + ', sample:' + JSON.stringify(this.state.sample) + artistsQuery + tracksQuery + ') {_id}}';
             var request = post();
             request._this = this;
             request.onload = function () {
@@ -137,7 +138,8 @@ export class AddAlbum extends Component{
         case 0:
             return (<StepOne onChange={this.handleChange} 
                         title={this.state.title} 
-                        cover={this.state.cover} 
+                        cover={this.state.cover}
+                        sample={this.state.sample} 
                         released={this.state.released} 
                         length={this.state.length} 
                         artists={this.state.artists} 
@@ -148,6 +150,7 @@ export class AddAlbum extends Component{
         case 2:
             return (<StepThree title={this.state.title} 
                         cover={this.state.cover} 
+                        sample={this.state.sample} 
                         released={this.state.released} 
                         length={this.state.length} 
                         artists={this.state.artists} 

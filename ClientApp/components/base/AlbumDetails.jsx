@@ -11,6 +11,7 @@ export class AlbumDetails extends Component {
             album: {
                 title: '',
                 cover: '',
+                sample: '',
                 artists: [],
                 released: '',
                 length: '',
@@ -22,7 +23,7 @@ export class AlbumDetails extends Component {
 
     componentDidMount() {
         var query = '{albums (id:' + JSON.stringify(this.props.params.id) 
-        + '){title, cover, artists {name}, released, length, genres{label}, tracks{id, title, feat, length}}}';
+        + '){title, cover, sample, artists {name}, released, length, genres{label}, tracks{id, title, feat, length}}}';
         var request = post();
         request._this = this;
         request.onload = function () {
@@ -95,6 +96,9 @@ export class AlbumDetails extends Component {
                                     style={cursorDefault}
                                     inputStyle={whiteColor} 
                                     value={this.state.album.genres.map(x => x.label).join(', ')}/>
+                            </div>
+                            <div style={{marginTop: '25px'}}>
+                                <audio controls src={this.state.album.sample || ''}/>
                             </div>
                         </div>
                         <div className='pure-u-1-12'>&nbsp;</div>

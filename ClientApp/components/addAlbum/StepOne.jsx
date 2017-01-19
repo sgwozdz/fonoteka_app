@@ -26,6 +26,7 @@ export class StepOne extends Component {
             },
             title: this.props.title || '',
             cover: this.props.cover || '',
+            sample: this.props.sample || '',
             released: this.props.released || null,
             length: this.props.length || '',
             artists: this.props.artists || [],
@@ -60,7 +61,8 @@ export class StepOne extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleCoverChange = this.handleCoverChange.bind(this);
+        this.handleSampleChange = this.handleSampleChange.bind(this);
         this.handleUpdateInput = this.handleUpdateInput.bind(this);
         this.handleNewRequest = this.handleNewRequest.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -118,7 +120,7 @@ export class StepOne extends Component {
         }
     }
 
-    handleInputChange(event) {
+    handleCoverChange(event) {
         var file = event.target.files[0];
         if (file) {
             var reader = new FileReader();
@@ -138,6 +140,20 @@ export class StepOne extends Component {
                 }
 
                 image.src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        };
+    }
+
+    handleSampleChange(event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.this = this;
+            reader.onload = function (e) {
+                reader.this.setState({sample: "done"});
+                reader.this.props.onChange({target: {name: 'sample', value: e.target.result}});
             }
 
             reader.readAsDataURL(file);
@@ -243,9 +259,19 @@ export class StepOne extends Component {
                             <input
                                 type="file"
                                 style={this.styles.fileButton}
-                                onChange={this.handleInputChange}/>
+                                onChange={this.handleCoverChange}/>
                         </RaisedButton>
                         {this.state.cover ? <CheckCircle style={this.styles.iconStyle}/> : ''
+                        }
+                    </div>
+                    <div style={marginTop}>
+                        <RaisedButton containerElement='label' label='Dodaj sample' primary={true}>
+                            <input
+                                type="file"
+                                style={this.styles.fileButton}
+                                onChange={this.handleSampleChange}/>
+                        </RaisedButton>
+                        {this.state.sample ? <CheckCircle style={this.styles.iconStyle}/> : ''
                         }
                     </div>
                     <div>
