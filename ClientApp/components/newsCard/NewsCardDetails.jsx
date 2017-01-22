@@ -22,6 +22,7 @@ export class NewsCardDetails extends Component {
             },
             logged: cookie.load('userId') ? true : false
         }
+        
         this.handleAddComment = this.handleAddComment.bind(this);
     }
 
@@ -40,14 +41,14 @@ export class NewsCardDetails extends Component {
         var value = this.refs['comment' + parent_id].getValue();
         if (value) {
             var userId = cookie.load('userId');
-            var query = 'mutation{commentAdd(post_id: '+ JSON.stringify(this.state.post._id) 
+            var query = 'mutation{postCommentAdd(post_id: '+ JSON.stringify(this.state.post._id) 
             +', body:'+ JSON.stringify(value) +', author:'+ JSON.stringify(userId) 
             +', parent_id: '+ JSON.stringify(parent_id) +'){_id, author {_id, username}, parent_id, body, createDate}}';
             var request = post();
             request._this = this;
             request.onload = function () {
                 var post = request._this.state.post;
-                post.comments.push(request.response.data.commentAdd);
+                post.comments.push(request.response.data.postCommentAdd);
                 request._this.setState({post: post});
             }
 
@@ -67,7 +68,8 @@ export class NewsCardDetails extends Component {
         }
         return (
             <div className='pure-g'>
-                <div className='pure-u-1'>
+                <div className="pure-u-1-12">&nbsp;</div>
+                <div className='pure-u-20-24'>
                     <Card>
                         <CardMedia
                             overlay={<CardTitle title={this.state.post.title} />}>
