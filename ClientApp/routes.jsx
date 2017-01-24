@@ -36,6 +36,6 @@ export default <Route path='/(dialog/:dialog)' component={Layout}>
     <Route path='album/details/:id' components={{ body: AlbumDetails }} />
     <Route path='album/add' components={{body: AddAlbum}} onEnter={requireAuth}/>
     <Route path='friends' components={{ body: Friends }} onEnter={requireAuth}/>
-{/*   <Route path='ranking' components={{ body: Ranking }} /> */}
+    <Route path='ranking' components={{ body: Ranking }} /> 
     <Route path='*' components={{ body: NotFound }} />
 </Route>;

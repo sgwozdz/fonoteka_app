@@ -43,8 +43,8 @@ export class LeftDrawer extends Component {
                 <div>
                     <MenuItem containerElement={<Link to="/"/>} onTouchTap={this.handleClose}>Aktualności</MenuItem>
                     <MenuItem containerElement={<Link to="/base"/>} onTouchTap={this.handleClose}>Baza</MenuItem>
-                { /*    <MenuItem containerElement={<Link to="/ranking"/>} onTouchTap={this.handleClose}>Ranking</MenuItem>
-                    <MenuItem containerElement={<Link to="/events"/>} onTouchTap={this.handleClose}>Wydarzenia</MenuItem> */}
+                    <MenuItem containerElement={<Link to="/ranking"/>} onTouchTap={this.handleClose}>Ranking</MenuItem>
+                { /*     <MenuItem containerElement={<Link to="/events"/>} onTouchTap={this.handleClose}>Wydarzenia</MenuItem> */}
                 </div>
                 {this.props.logged ? this.renderLoggedMenu() : ''}
             </Drawer>
