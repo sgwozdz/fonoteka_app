@@ -90,3 +90,11 @@ select:-webkit-autofill:focus {
 .reset-padding-right > div{
   padding-right: 0px !important;
 }
+
+.table-odd-color-ranking{
+  background-color: #757575;
+}
+
+.table-odd-color-album{
+  background-color: #616161;
+}

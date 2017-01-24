@@ -15,7 +15,12 @@ export class Base extends Component {
             chipData: [],
             genres: []
         }
-
+        this.styles = {
+            chip: {
+                margin: '4px',
+                float: 'left'
+            }
+        }
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
@@ -94,6 +99,7 @@ export class Base extends Component {
         return (
             <Chip
                 key={data.key}
+                style={this.styles.chip}
                 onRequestDelete={() => this.handleRequestDelete(data.key)}>
                 {data.label}
             </Chip>
@@ -114,6 +120,9 @@ export class Base extends Component {
             marginTop: 30,
             float: 'right'
         };
+        const displayInlineBlock = {
+            display: 'inline-block'
+        }
         return <div>          
             <div className='pure-g'>
                 <div className='pure-u-2-3'>
@@ -151,7 +160,7 @@ export class Base extends Component {
                         {this.state.genres.map(genre => 
                             <MenuItem key={genre._id} value={genre._id} primaryText={genre.label} />)}
                     </SelectField>
-                    <div>
+                    <div style={displayInlineBlock}>
                         {this.state.chipData.map(this.renderChip, this)}
                     </div>
                 </div>
