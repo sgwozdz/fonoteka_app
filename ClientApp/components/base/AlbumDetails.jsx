@@ -33,7 +33,11 @@ export class AlbumDetails extends Component {
         var request = post();
         request._this = this;
         request.onload = function () {
-            request._this.setState({album: request.response.data.albums[0]})
+            var result = request.response.data.albums[0];
+            if (!result.comments)
+                result.comments = [];       
+             
+            request._this.setState({album: result})
         }
 
         request.send(JSON.stringify({query: query}));
@@ -148,7 +152,7 @@ export class AlbumDetails extends Component {
                                     </thead>
                                     <tbody>
                                         {this.state.album.tracks.map((track, cIndex) =>
-                                            <tr key={cIndex}>
+                                            <tr key={cIndex} className={cIndex%2 === 1 ? 'pure-table-odd table-odd-color-album' : ''}>
                                                 <th>{track.number || ''}</th>
                                                 <th>{track.title + (track.feat ? ' (feat. '+ track.feat +')' : '')}</th>
                                                 <th>{track.length || ''}</th>
