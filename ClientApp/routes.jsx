@@ -30,7 +30,7 @@ export default <Route path='/(dialog/:dialog)' component={Layout}>
     <Route path="news/add" components={{body: AddNews}} onEnter={requireAuth}/>
     <Route path='login' components={{body: Login}} />
     <Route path='register' components={{body: Register}} />
-    <Route path='profile' components={{body: Profile}} onEnter={requireAuth}/>
+    <Route path='profile/details/:id' components={{body: Profile}}/>
     <Route path='profile/edit' components={{body: EditProfile}} onEnter={requireAuth}/>
     <Route path='base' components={{ body: Base }} />
     <Route path='album/details/:id' components={{ body: AlbumDetails }} />

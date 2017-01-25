@@ -39,7 +39,7 @@ export class LoggedMenu extends Component {
                     iconButtonElement={<IconButton><Person/></IconButton>}
                     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                     targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-                    <MenuItem primaryText="mój profil" containerElement={<Link to="/profile"/>}/>
+                    <MenuItem primaryText="mój profil" containerElement={<Link to={'/profile/details/' + cookie.load('userId')}/>}/>
                     <MenuItem primaryText="wyloguj" onTouchTap={this.handleTap}/>
                 </IconMenu>
             </span>

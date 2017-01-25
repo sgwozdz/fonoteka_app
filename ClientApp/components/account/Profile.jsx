@@ -16,18 +16,19 @@ export class Profile extends Component {
                 username: '',
                 firstName: '',
                 lastName: '',
-                email: '',
-                birthdate: ''
+                description: '',
+                email: ''
             },
-            ratedAlbums:[]
+            ratedAlbums:[],
+            logged: cookie.load('userId') === this.props.routeParams.id
         };
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
-        var userId = cookie.load("userId");
+        var userId = this.props.routeParams.id;
         
-        var query = '{users (id: ' + JSON.stringify(userId) + ') {_id, username, email}}';
+        var query = '{users (id: ' + JSON.stringify(userId) + ') {_id, username, firstName, lastName, description, email}}';
         var request = post();
         request._this = this;
         request.onload = function () {
@@ -80,16 +81,17 @@ export class Profile extends Component {
                                 <div className='pure-u-1-2'>{this.state.user.email}</div>
                             </div>
                             <div>
-                                <div className='pure-u-1-2'>Data urodzenia:</div>
-                                <div className='pure-u-1-2'>{this.state.user.birthdate}</div>
+                                <div className='pure-u-1-2'>Opis:</div>
+                                <div className='pure-u-1-2' style={{wordWrap: 'break-word'}}>{this.state.user.description}</div>
                             </div>
                         </CardText>
                         <CardActions>
-                            <RaisedButton label="Edytuj" primary={true} containerElement={<Link to="/profile/edit"/>}/>
+                            <RaisedButton label='Edytuj' primary={true} containerElement={<Link to={'/profile/edit'}/>} disabled={!this.state.logged}/>
                         </CardActions>
                     </Card>
                 </div>
-                <div className='pure-u-16-24'>
+                <div className="pure-u-1-24">&nbsp;</div>
+                <div className='pure-u-15-24'>
                     <Card>
                         <CardTitle title="Ostatnio ocenione"/>
                         <CardText>

@@ -160,7 +160,9 @@ export class Friends extends Component {
                     {this.state.friends.filter(this.filterUsers.bind(this, 'friends')).map((friend, cIndex) =>
                         <div key={cIndex} className='pure-u-lg-1-4'>
                             <div className='pure-u-lg-5-6'>
+                                <Link to={'/profile/details/' + friend._id}>
                                     <FriendElement username={friend.username}/>
+                                </Link>
                             </div> 
                             <div className='pure-u-lg-1-6'></div>
                         </div>)}
