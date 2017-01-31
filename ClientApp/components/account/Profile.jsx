@@ -24,7 +24,14 @@ export class Profile extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
     }
-
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.routeParams.id) {
+            this.setState({
+                    logged: cookie.load('userId') === nextProps.routeParams.id
+                })
+            this.componentDidMount()
+        }
+    }
     componentDidMount() {
         var userId = this.props.routeParams.id;
         
@@ -41,6 +48,7 @@ export class Profile extends Component {
         request2._this = this;
         request2.onload = function () {
             if (request2.response.data.albums) {
+                request2._this.state.ratedAlbums = [];
                 request2.response.data.albums.forEach(function(element){
                     element.rate = element.ratings.filter((x)=> x.user_id === userId)[0].rate;
                     delete element.ratings;
@@ -62,6 +70,10 @@ export class Profile extends Component {
     }
 
     render() {
+        const displayStyle={
+            display: 'none'
+        }
+
         return (
             <div className='pure-g'>
                 <div className='pure-u-1-3'>
@@ -86,7 +98,7 @@ export class Profile extends Component {
                             </div>
                         </CardText>
                         <CardActions>
-                            <RaisedButton label='Edytuj' primary={true} containerElement={<Link to={'/profile/edit'}/>} disabled={!this.state.logged}/>
+                            <RaisedButton label='Edytuj' primary={true} containerElement={<Link to={'/profile/edit'}/>} style={this.state.logged ? {}: displayStyle}/>
                         </CardActions>
                     </Card>
                 </div>
@@ -96,9 +108,9 @@ export class Profile extends Component {
                         <CardTitle title="Ostatnio ocenione"/>
                         <CardText>
                             <GridList>
-                                 {this.state.ratedAlbums.map((album) => (
+                                 {this.state.ratedAlbums.map((album, index) => (
                                     <GridTile
-                                    key={album._id}
+                                    key={index}
                                     title={album.title}
                                     subtitle={<span>oceniono na <b>{album.rate}</b></span>}>
                                         <img src={album.cover} alt='brak zdjęcia'/>

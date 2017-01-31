@@ -17,7 +17,8 @@ export class BaseElement extends Component {
             sliderValue: 1,
             userId: cookie.load("userId") || '',
             open: false,
-            dialogTitle: ''
+            dialogTitle: '',
+            rated: false
         }
         this.styles = {
             sliderInner: {
@@ -62,13 +63,16 @@ export class BaseElement extends Component {
     handleDialog() {
         if(this.state.userId)
         {
-            var query = 'mutation{ratingAdd(album_id:' 
+            var query = 'mutation{rating' + (this.state.rated ? 'Edit' : 'Add');
+            query += '(album_id:' 
             + JSON.stringify(this.props.album._id) 
             + ', user_id:' + JSON.stringify(this.state.userId) 
             + ', rate: ' + this.state.sliderValue + '){user_id, rate}}';
+            console.log(query);
             var request = post();
             request._this = this;
             request.onload = function () {
+                console.log(request.response);
                 request._this.setState({
                     dialogTitle: 'Właśnie oceniłeś album! Dziękujemy :)',
                     open: !request._this.state.open
